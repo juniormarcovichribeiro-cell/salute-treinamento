@@ -339,8 +339,28 @@ Retorne SOMENTE um JSON válido sem texto adicional:
     if (data.error) throw new Error(data.error.message);
     const raw = data.content[0].text;
     let analise;
-    try { analise = JSON.parse(raw); }
-    catch { const m = raw.match(/\{[\s\S]*\}/); analise = JSON.parse(m[0]); }
+    try {
+      analise = JSON.parse(raw);
+    } catch(e1) {
+      try {
+        const m = raw.match(/\{[\s\S]*\}/);
+        if (m) analise = JSON.parse(m[0]);
+        else throw new Error("JSON não encontrado");
+      } catch(e2) {
+        // Tentar limpar o JSON antes de parsear
+        try {
+          const cleaned = raw
+            .replace(/```json/g, '').replace(/```/g, '')
+            .replace(/[\u0000-\u001F\u007F-\u009F]/g, ' ')
+            .trim();
+          const m2 = cleaned.match(/\{[\s\S]*\}/);
+          if (m2) analise = JSON.parse(m2[0]);
+          else throw new Error("Não foi possível parsear a resposta");
+        } catch(e3) {
+          throw new Error("Erro ao processar resposta da IA: " + raw.substring(0, 100));
+        }
+      }
+    }
     renderAnalise(analise);
   } catch(e) {
     document.getElementById('analise-content').innerHTML =
@@ -471,7 +491,8 @@ Comece agora apresentando sua necessidade como cliente.`;
     });
     const data = await resp.json();
     if (data.error) throw new Error(data.error.message);
-    let texto = data.content[0].text;
+    let texto = (data.content && data.content[0] && data.content[0].text) ? data.content[0].text : "";
+    if (!texto) throw new Error("Resposta vazia da IA");
     const avaliacao = extrairAvaliacao(texto);
     texto = removerAvaliacao(texto);
     removeLoading(loadId);
@@ -513,7 +534,8 @@ async function enviarMensagem() {
     });
     const data = await resp.json();
     if (data.error) throw new Error(data.error.message);
-    let texto = data.content[0].text;
+    let texto = (data.content && data.content[0] && data.content[0].text) ? data.content[0].text : "";
+    if (!texto) throw new Error("Resposta vazia da IA");
     const avaliacao = extrairAvaliacao(texto);
     texto = removerAvaliacao(texto);
     removeLoading(loadId);
