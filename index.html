@@ -5,97 +5,86 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Agente de Treinamento Comercial — Salute</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: system-ui, -apple-system, sans-serif; background: #f7f6f2; min-height: 100vh; color: #1a1a18; }
-  .app { max-width: 800px; margin: 0 auto; padding: 20px; }
-  .card { background: #fff; border: 0.5px solid #e0ddd6; border-radius: 12px; padding: 20px; margin-bottom: 16px; }
-  .header { text-align: center; padding: 24px 20px 20px; }
-  .logo { font-size: 12px; font-weight: 500; color: #1d9e75; letter-spacing: 1.5px; margin-bottom: 8px; text-transform: uppercase; }
-  h1 { font-size: 22px; font-weight: 500; color: #1a1a18; margin-bottom: 4px; }
-  .sub { font-size: 13px; color: #888780; }
-  label { display: block; font-size: 11px; color: #888780; margin-bottom: 4px; }
-  input, select { width: 100%; padding: 9px 11px; border: 0.5px solid #d3d1c7; border-radius: 8px; font-size: 13px; background: #fafaf8; color: #1a1a18; outline: none; }
-  input:focus { border-color: #1d9e75; }
-  .btn { padding: 9px 18px; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; border: 0.5px solid #d3d1c7; background: transparent; color: #1a1a18; width: 100%; margin-top: 12px; }
-  .btn-p { background: #1d9e75; border-color: #1d9e75; color: #fff; }
-  .btn-p:hover { background: #0f6e56; }
-  .btn-p:disabled { background: #aaa; border-color: #aaa; cursor: not-allowed; }
-  .btn-outline { border-color: #1d9e75; color: #1d9e75; background: transparent; }
-  .btn-outline:hover { background: #e1f5ee; }
-  .btn-sm { width: auto; padding: 5px 14px; font-size: 12px; margin: 0; }
-  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .stat { background: #f1efe8; border-radius: 8px; padding: 12px; text-align: center; }
-  .stat-l { font-size: 11px; color: #888780; margin-bottom: 4px; }
-  .stat-v { font-size: 20px; font-weight: 500; }
-  .chat { display: flex; flex-direction: column; gap: 10px; max-height: 460px; overflow-y: auto; padding: 4px 0; }
-  .msg { display: flex; flex-direction: column; }
-  .msg-agent { align-items: flex-start; }
-  .msg-user { align-items: flex-end; }
-  .bubble { padding: 10px 14px; font-size: 13px; line-height: 1.6; word-break: break-word; max-width: 85%; }
-  .bubble-agent { background: #f1efe8; border-radius: 2px 12px 12px 12px; color: #1a1a18; }
-  .bubble-user { background: #1d9e75; border-radius: 12px 2px 12px 12px; color: #fff; }
-  .bubble-system { background: #e1f5ee; border-radius: 8px; color: #085041; font-size: 12px; padding: 8px 12px; border: 0.5px solid #9fe1cb; }
-  .sender { font-size: 10px; color: #888780; margin-bottom: 2px; padding: 0 4px; }
-  .input-row { display: flex; gap: 8px; margin-top: 12px; }
-  .input-row input { flex: 1; margin: 0; }
-  .divider { border: none; border-top: 0.5px solid #e0ddd6; margin: 16px 0; }
-  .tag { display: inline-block; background: #f1efe8; color: #5f5e5a; font-size: 11px; padding: 3px 8px; border-radius: 4px; margin: 2px; }
-  .erro-item { font-size: 12px; color: #a32d2d; padding: 5px 0; border-bottom: 0.5px solid #f1efe8; line-height: 1.4; }
-  .acerto-item { font-size: 12px; color: #3b6d11; padding: 5px 0; border-bottom: 0.5px solid #f1efe8; line-height: 1.4; }
-  .hidden { display: none !important; }
-  .loading { text-align: center; color: #888780; font-size: 13px; padding: 24px; }
-  .dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #1d9e75; animation: pulse 1s infinite; margin: 0 2px; }
-  .dot:nth-child(2) { animation-delay: .2s; }
-  .dot:nth-child(3) { animation-delay: .4s; }
-  @keyframes pulse { 0%,100%{opacity:.3} 50%{opacity:1} }
-  .mode-btn { padding: 16px; border-radius: 10px; border: 0.5px solid #d3d1c7; background: #fff; cursor: pointer; text-align: left; width: 100%; transition: border-color .15s, background .15s; }
-  .mode-btn:hover { border-color: #1d9e75; background: #e1f5ee; }
-  .mode-title { font-size: 14px; font-weight: 500; color: #1a1a18; margin-bottom: 3px; }
-  .mode-desc { font-size: 12px; color: #888780; }
-  .config-note { font-size: 12px; color: #888780; background: #f7f6f2; border-radius: 8px; padding: 10px 12px; margin-bottom: 14px; line-height: 1.6; }
-  .avaliacao { border-radius: 8px; padding: 8px 12px; font-size: 12px; margin: 4px 0 8px; line-height: 1.5; }
-  .avatar { width: 42px; height: 42px; border-radius: 50%; background: #e1f5ee; display: flex; align-items: center; justify-content: center; font-weight: 500; font-size: 15px; color: #0f6e56; flex-shrink: 0; }
-  .plano-item { background: #f7f6f2; border-radius: 8px; padding: 12px; margin-bottom: 8px; }
-  .plano-semana { font-size: 11px; color: #888780; margin-bottom: 2px; }
-  .plano-acao { font-size: 12px; color: #1a1a18; line-height: 1.5; }
-  .meta-box { background: #e1f5ee; border: 0.5px solid #9fe1cb; border-radius: 8px; padding: 12px; margin-top: 8px; }
-  .meta-label { font-size: 11px; color: #085041; margin-bottom: 3px; }
-  .meta-texto { font-size: 13px; color: #085041; font-weight: 500; }
-  .nota-grande { font-size: 30px; font-weight: 500; padding: 12px 20px; border-radius: 10px; }
-  .header-line { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
-  .header-title { font-size: 15px; font-weight: 500; }
-  .info-box { font-size: 11px; color: #888780; background: #f7f6f2; border-radius: 8px; padding: 8px 12px; margin-bottom: 12px; line-height: 1.5; }
-  .error-msg { color: #a32d2d; font-size: 13px; background: #fef2f2; border: 0.5px solid #f09595; border-radius: 8px; padding: 10px 14px; }
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,sans-serif;background:#f7f6f2;min-height:100vh;color:#1a1a18}
+.app{max-width:800px;margin:0 auto;padding:20px}
+.card{background:#fff;border:0.5px solid #e0ddd6;border-radius:12px;padding:20px;margin-bottom:16px}
+.header{text-align:center;padding:24px 20px 20px}
+.logo{font-size:12px;font-weight:500;color:#1d9e75;letter-spacing:1.5px;margin-bottom:8px;text-transform:uppercase}
+h1{font-size:22px;font-weight:500;color:#1a1a18;margin-bottom:4px}
+.sub{font-size:13px;color:#888780}
+label{display:block;font-size:11px;color:#888780;margin-bottom:4px}
+input{width:100%;padding:9px 11px;border:0.5px solid #d3d1c7;border-radius:8px;font-size:13px;background:#fafaf8;color:#1a1a18;outline:none}
+input:focus{border-color:#1d9e75}
+.btn{padding:9px 18px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;border:0.5px solid #d3d1c7;background:transparent;color:#1a1a18;width:100%;margin-top:12px}
+.btn-p{background:#1d9e75;border-color:#1d9e75;color:#fff}
+.btn-p:hover{background:#0f6e56}
+.btn-outline{border-color:#1d9e75;color:#1d9e75;background:transparent}
+.btn-outline:hover{background:#e1f5ee}
+.btn-sm{width:auto;padding:5px 14px;font-size:12px;margin:0}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stat{background:#f1efe8;border-radius:8px;padding:12px;text-align:center}
+.stat-l{font-size:11px;color:#888780;margin-bottom:4px}
+.stat-v{font-size:20px;font-weight:500}
+.chat{display:flex;flex-direction:column;gap:10px;max-height:460px;overflow-y:auto;padding:4px 0}
+.msg{display:flex;flex-direction:column}
+.msg-agent{align-items:flex-start}
+.msg-user{align-items:flex-end}
+.bubble{padding:10px 14px;font-size:13px;line-height:1.6;word-break:break-word;max-width:85%}
+.bubble-agent{background:#f1efe8;border-radius:2px 12px 12px 12px;color:#1a1a18}
+.bubble-user{background:#1d9e75;border-radius:12px 2px 12px 12px;color:#fff}
+.bubble-system{background:#e1f5ee;border-radius:8px;color:#085041;font-size:12px;padding:8px 12px;border:0.5px solid #9fe1cb}
+.sender{font-size:10px;color:#888780;margin-bottom:2px;padding:0 4px}
+.input-row{display:flex;gap:8px;margin-top:12px}
+.input-row input{flex:1;margin:0}
+.divider{border:none;border-top:0.5px solid #e0ddd6;margin:16px 0}
+.tag{display:inline-block;background:#f1efe8;color:#5f5e5a;font-size:11px;padding:3px 8px;border-radius:4px;margin:2px}
+.erro-item{font-size:12px;color:#a32d2d;padding:5px 0;border-bottom:0.5px solid #f1efe8;line-height:1.4}
+.acerto-item{font-size:12px;color:#3b6d11;padding:5px 0;border-bottom:0.5px solid #f1efe8;line-height:1.4}
+.hidden{display:none!important}
+.loading{text-align:center;color:#888780;font-size:13px;padding:24px}
+.dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#1d9e75;animation:pulse 1s infinite;margin:0 2px}
+.dot:nth-child(2){animation-delay:.2s}
+.dot:nth-child(3){animation-delay:.4s}
+@keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
+.mode-btn{padding:16px;border-radius:10px;border:0.5px solid #d3d1c7;background:#fff;cursor:pointer;text-align:left;width:100%;transition:border-color .15s,background .15s}
+.mode-btn:hover{border-color:#1d9e75;background:#e1f5ee}
+.mode-title{font-size:14px;font-weight:500;color:#1a1a18;margin-bottom:3px}
+.mode-desc{font-size:12px;color:#888780}
+.avaliacao{border-radius:8px;padding:8px 12px;font-size:12px;margin:4px 0 8px;line-height:1.5}
+.avatar{width:42px;height:42px;border-radius:50%;background:#e1f5ee;display:flex;align-items:center;justify-content:center;font-weight:500;font-size:15px;color:#0f6e56;flex-shrink:0}
+.plano-item{background:#f7f6f2;border-radius:8px;padding:12px;margin-bottom:8px}
+.plano-semana{font-size:11px;color:#888780;margin-bottom:2px}
+.plano-acao{font-size:12px;color:#1a1a18;line-height:1.5}
+.header-line{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.header-title{font-size:15px;font-weight:500}
+.info-box{font-size:11px;color:#888780;background:#f7f6f2;border-radius:8px;padding:8px 12px;margin-bottom:12px;line-height:1.5}
+.error-msg{color:#a32d2d;font-size:13px;background:#fef2f2;border:0.5px solid #f09595;border-radius:8px;padding:10px 14px}
 </style>
 </head>
 <body>
 <div class="app">
 
   <div class="card header">
-    <div class="logo">Salute Rede de Clínicas</div>
+    <div class="logo">Salute Rede de Clinicas</div>
     <h1>Agente de Treinamento Comercial</h1>
-    <p class="sub">Análise de desempenho + Roleplay baseados no Playbook v3.0</p>
+    <p class="sub">Analise de desempenho + Roleplay baseados no Playbook v3.0</p>
   </div>
 
-  <div id="screen-config" class="hidden"></div>
-
-  <!-- LOGIN -->
-  <div id="screen-login" class="card hidden">
-    <div style="margin-bottom:4px;font-size:15px;font-weight:500">Olá! Qual é o seu nome?</div>
-    <div style="font-size:12px;color:#888780;margin-bottom:16px">Digite seu nome exatamente como cadastrado no sistema.</div>
-    <input type="text" id="input-nome" placeholder="Ex: Brendon Vianna" onkeydown="if(event.key==='Enter')entrar()" style="margin-bottom:4px" />
+  <div id="screen-login" class="card">
+    <div style="margin-bottom:4px;font-size:15px;font-weight:500">Ola! Qual e o seu nome?</div>
+    <div style="font-size:12px;color:#888780;margin-bottom:16px">Digite seu nome exatamente como cadastrado.</div>
+    <input type="text" id="input-nome" placeholder="Ex: Brendon Vianna" onkeydown="if(event.key==='Enter')entrar()" />
     <div id="erro-login" class="hidden" style="font-size:12px;color:#a32d2d;margin-top:6px"></div>
     <button class="btn btn-p" onclick="entrar()">Entrar</button>
-
   </div>
 
-  <!-- MENU -->
   <div id="screen-menu" class="hidden">
     <div class="card">
       <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
         <div class="avatar" id="avatar-initials">??</div>
         <div style="flex:1">
-          <div style="font-weight:500;font-size:15px" id="menu-nome">—</div>
+          <div style="font-weight:500;font-size:15px" id="menu-nome"></div>
           <div style="font-size:12px;color:#888780" id="menu-stats">Carregando...</div>
         </div>
         <div id="menu-badge"></div>
@@ -105,18 +94,17 @@
       <div style="display:flex;flex-direction:column;gap:10px">
         <button class="mode-btn" onclick="iniciarAnalise()">
           <div class="mode-title">Ver meu desempenho</div>
-          <div class="mode-desc">Análise detalhada das suas conversas + plano de treinamento personalizado</div>
+          <div class="mode-desc">Analise detalhada + plano de treinamento personalizado</div>
         </button>
         <button class="mode-btn" onclick="iniciarRoleplay()">
           <div class="mode-title">Fazer roleplay</div>
-          <div class="mode-desc">Simule um atendimento real com avaliação em tempo real baseada no playbook</div>
+          <div class="mode-desc">Simule um atendimento real com avaliacao em tempo real</div>
         </button>
       </div>
       <button class="btn" style="margin-top:12px;font-size:12px" onclick="sair()">Sair</button>
     </div>
   </div>
 
-  <!-- ANÁLISE -->
   <div id="screen-analise" class="hidden">
     <div class="card">
       <div class="header-line">
@@ -124,501 +112,221 @@
         <button class="btn btn-sm" onclick="voltarMenu()">Voltar</button>
       </div>
       <div id="analise-content">
-        <div class="loading"><span class="dot"></span><span class="dot"></span><span class="dot"></span><br><br>Analisando suas conversas com IA...</div>
+        <div class="loading"><span class="dot"></span><span class="dot"></span><span class="dot"></span><br><br>Analisando suas conversas...</div>
       </div>
     </div>
   </div>
 
-  <!-- ROLEPLAY -->
   <div id="screen-roleplay" class="hidden">
     <div class="card">
       <div class="header-line">
-        <div class="header-title">Roleplay — cliente simulado</div>
+        <div class="header-title">Roleplay</div>
         <button class="btn btn-sm" onclick="voltarMenu()">Encerrar</button>
       </div>
-      <div class="info-box">
-        Você é o atendente. Responda ao cliente como faria no WhatsApp. O agente avalia cada mensagem com base no Playbook Salute v3.0.
-      </div>
+      <div class="info-box">Voce e o atendente. Responda ao cliente como faria no WhatsApp. O agente avalia cada mensagem com base no Playbook.</div>
       <div class="chat" id="chat-messages"></div>
       <div class="input-row">
-        <input type="text" id="chat-input" placeholder="Digite sua resposta como atendente..." onkeydown="if(event.key==='Enter'&&!event.shiftKey)enviarMensagem()" />
+        <input type="text" id="chat-input" placeholder="Digite sua resposta..." onkeydown="if(event.key==='Enter')enviarMensagem()" />
         <button class="btn btn-p btn-sm" onclick="enviarMensagem()">Enviar</button>
       </div>
     </div>
   </div>
 
 </div>
-
 <script>
-const ATENDENTES = [
-  "Alessandra Silveira","Aline Lemos","Anelise Olgini","Brendon Vianna",
-  "Catiani Longarai","Debora Guimaraes","Deividy Silva","Douglas de Souza",
-  "Hondyne Fernandes","Jamila Rosa","Jéssica Langner","Lucia Cristiane",
-  "Michelle Rodrigues","Rafael Dias Miranda","Roselaine Brazeiro",
-  "Tatiana Almeida","Viviane Freitas"
-];
+var PROXY = "https://salute-proxy.juniormarcovich-ribeiro.workers.dev";
+var SHEET_ID = "1rFUKlDjFLn7e0MQmBJ7Dl7BCXXMzwdBjDv2gwAoLfTI";
+var SHEET_ABA = "An\u00e1lise Di\u00e1ria";
+var ATENDENTES = ["Alessandra Silveira","Aline Lemos","Anelise Olgini","Brendon Vianna","Catiani Longarai","Debora Guimaraes","Deividy Silva","Douglas de Souza","Hondyne Fernandes","Jamila Rosa","J\u00e9ssica Langner","Lucia Cristiane","Michelle Rodrigues","Rafael Dias Miranda","Roselaine Brazeiro","Tatiana Almeida","Viviane Freitas"];
+var PB = "PLAYBOOK SALUTE v3.0: ABERTURA: apresentar nome/cargo, confirmar nome lead, responder ate 5min. SONDAGEM: min 2 perguntas antes de preco, identificar necessidade/regiao/para quem/cobertura/dependentes. ANCORAGEM CRITICA: particular ANTES do assinante, nunca inverter, calcular implicacao de custo. PROPOSTA: upsell dependentes min 1x. OBJECOES: acolher, isolar (tirando isso tem mais algo?), validar (se resolver avancaria?), responder 100%. FECHAMENTO CRITICO: presumido, checklist 3 SIMs (nao e plano saude / sem reembolso / 12 meses multa 50%). SE NAO FECHOU: agendar data hora exatas. ERROS CRITICOS: assinante antes particular / vou pensar sem data / sem checklist / tabela completa / sem upsell. PRECOS POA: 1v R$79 2v R$144 3v R$195 5+v R$275. CONSULTAS: clinico particular R$275 assinante R$54. Especialista particular R$305 assinante R$94.";
 
-const PLAYBOOK = `PLAYBOOK COMERCIAL SALUTE v3.0:
-
-ETAPA 1 - ABERTURA: Apresentar nome e cargo ("consultor(a) de saúde da Salute"), confirmar nome do lead, responder em até 5 minutos.
-
-ETAPA 2 - SONDAGEM (mínimo 2 perguntas antes de qualquer preço):
-Identificar: necessidade (consulta/exame específico), região/cidade, se é para si ou terceiro, cobertura atual (SUS/plano/particular), dependentes.
-
-ETAPA 3 - ANCORAGEM DE VALOR (CRÍTICO):
-Apresentar valor PARTICULAR primeiro, depois ASSINANTE. NUNCA inverter. Calcular implicação de custo (cenário sem assinatura). NÃO enviar tabela completa de preços.
-
-ETAPA 4 - PROPOSTA:
-Tentar upsell de dependentes pelo menos 1 vez. Apresentar benefícios relevantes para o perfil.
-
-ETAPA 5 - OBJEÇÕES:
-Acolher → Isolar ("Tirando isso, tem mais algum fator?") → Validar ("Se eu resolver, você avançaria?") → Responder 100% das objeções.
-
-ETAPA 6 - FECHAMENTO (CRÍTICO):
-Fechamento presumido (iniciar coleta de dados diretamente). Checklist legal obrigatório (3 SIMs):
-1. Salute NÃO é plano de saúde
-2. Não há reembolso de serviços utilizados
-3. Contrato 12 meses com multa de 50% por cancelamento
-
-SE NÃO FECHOU: Agendar data e hora EXATAS para retorno. NUNCA aceitar "vou pensar" sem data.
-
-ERROS CRÍTICOS: Assinante antes do particular / Aceitar "vou pensar" sem data / Não fazer checklist legal / Enviar tabela completa / Não tentar upsell.
-
-TABELA DE PREÇOS (POA): 1 vida R$79 | 2 vidas R$144 (R$72/p) | 3 vidas R$195 (R$65/p) | 5+ vidas R$275+ (R$55/p)
-TABELA METRO (Alvorada, Canoas, Gravataí, Cachoeirinha, Restinga): desconto de ~20%.
-Consultas: Clínico/Pediatra/Gineco: particular R$275 → assinante R$54. Especialista: particular R$305 → assinante R$94.`;
-
-const cfg = {
-    claude: "",
-    sheet: "1rFUKlDjFLn7e0MQmBJ7Dl7BCXXMzwdBjDv2gwAoLfTI",
-    aba: "An\u00e1lise Di\u00e1ria"
-  };
-  let vendedor = "", dadosVendedor = [], chatHistory = [], sistemaRoleplayAtivo = "";
+var vendedor = "", dados = [], hist = [], sys = "";
 
 function mostrar(id) {
-  ['screen-config','screen-login','screen-menu','screen-analise','screen-roleplay']
-    .forEach(s => { const el = document.getElementById(s); if(el) el.classList.add('hidden'); });
-  document.getElementById(id).classList.remove('hidden');
+  ["screen-login","screen-menu","screen-analise","screen-roleplay"].forEach(function(s){
+    var el = document.getElementById(s);
+    if (el) el.classList.add("hidden");
+  });
+  document.getElementById(id).classList.remove("hidden");
 }
 
 function initials(n) {
-  if (!n) return '??';
-  return n.split(' ').slice(0,2).map(w => w[0]).join('').toUpperCase();
+  return n.split(" ").slice(0,2).map(function(w){ return w[0]; }).join("").toUpperCase();
 }
 
-function salvarConfig() {}
-
-async function entrar() {
-  const nome = document.getElementById('input-nome').value.trim();
-  const erroEl = document.getElementById('erro-login');
+function entrar() {
+  var nome = document.getElementById("input-nome").value.trim();
+  var err = document.getElementById("erro-login");
   if (!nome) return;
-
-  const match = ATENDENTES.find(a => a.toLowerCase() === nome.toLowerCase());
+  var match = ATENDENTES.filter(function(a){ return a.toLowerCase()===nome.toLowerCase(); })[0];
   if (!match) {
-    erroEl.textContent = 'Nome não encontrado. Verifique se digitou exatamente como está cadastrado.';
-    erroEl.classList.remove('hidden');
+    err.textContent = "Nome nao encontrado. Verifique se digitou exatamente como cadastrado.";
+    err.classList.remove("hidden");
     return;
   }
-
-  erroEl.classList.add('hidden');
+  err.classList.add("hidden");
   vendedor = match;
-  document.getElementById('avatar-initials').textContent = initials(vendedor);
-  document.getElementById('menu-nome').textContent = vendedor;
-  document.getElementById('menu-stats').textContent = 'Carregando dados da planilha...';
-  mostrar('screen-menu');
-  await carregarDados();
-}
-
-async function carregarDados() {
-  try {
-    const url = `https://docs.google.com/spreadsheets/d/${cfg.sheet}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(cfg.aba)}`;
-    const resp = await fetch(url);
-    if (!resp.ok) throw new Error('Erro ao acessar planilha');
-    const csv = await resp.text();
-    const linhas = csv.split('\n').slice(1).filter(l => l.trim());
-
-    dadosVendedor = linhas.map(l => {
-      const cols = [];
-      let cur = '', inQ = false;
-      for (let i = 0; i < l.length; i++) {
-        if (l[i] === '"') { inQ = !inQ; }
-        else if (l[i] === ',' && !inQ) { cols.push(cur.replace(/^"|"$/g,'').replace(/""/g,'"').trim()); cur = ''; }
-        else cur += l[i];
-      }
-      cols.push(cur.replace(/^"|"$/g,'').replace(/""/g,'"').trim());
-      return {
-        data: cols[0]||'', atendente: cols[1]||'', cliente: cols[2]||'', phone: cols[3]||'',
-        nota: parseFloat(cols[4])||0, resultado: cols[5]||'',
-        busca: cols[6]||'', especialidade: cols[7]||'', motivo: cols[8]||'',
-        paraQuem: cols[9]||'', regiao: cols[10]||'', cobertura: cols[11]||'',
-        objecaoPrincipal: cols[12]||'', todasObjecoes: cols[13]||'', comoTratou: cols[14]||'',
-        ancoragem: cols[15]||'', upsell: cols[16]||'', checklist: cols[17]||'', objecoesTratadas: cols[18]||'',
-        etapasCumpridas: cols[19]||'', errosCriticos: cols[20]||'', errosComuns: cols[21]||'',
-        boasPraticas: cols[22]||'', motivo_nf: cols[23]||'', resumo: cols[24]||'', recomendacao: cols[25]||''
-      };
-    }).filter(r => r.atendente.toLowerCase() === vendedor.toLowerCase());
-
-    const total = dadosVendedor.length;
-    const media = total > 0 ? (dadosVendedor.reduce((s,r) => s+r.nota, 0)/total).toFixed(1) : '—';
-    const vendas = dadosVendedor.filter(r => r.resultado === 'VENDA').length;
-    const taxa = total > 0 ? Math.round(vendas/total*100) : 0;
-
-    document.getElementById('menu-stats').textContent = `${total} conversas · Média ${media} · ${taxa}% conversão`;
-
-    const n = parseFloat(media);
-    const corF = n >= 7 ? '#eaf3de' : n >= 4 ? '#faeeda' : '#fcebeb';
-    const corT = n >= 7 ? '#3b6d11' : n >= 4 ? '#854f0b' : '#a32d2d';
-    document.getElementById('menu-badge').innerHTML =
-      `<span style="background:${corF};color:${corT};padding:4px 12px;border-radius:20px;font-size:13px;font-weight:500">${media}/10</span>`;
-
-    document.getElementById('menu-cards').innerHTML = `
-      <div class="stat"><div class="stat-l">Conversas analisadas</div><div class="stat-v">${total}</div></div>
-      <div class="stat"><div class="stat-l">Vendas realizadas</div><div class="stat-v" style="color:#3b6d11">${vendas}</div></div>
-    `;
-  } catch(e) {
-    document.getElementById('menu-stats').textContent = 'Erro ao carregar dados da planilha.';
-    console.error(e);
-  }
-}
-
-async function iniciarAnalise() {
-  mostrar('screen-analise');
-  document.getElementById('analise-content').innerHTML =
-    '<div class="loading"><span class="dot"></span><span class="dot"></span><span class="dot"></span><br><br>Analisando suas conversas com IA...</div>';
-
-  if (dadosVendedor.length === 0) {
-    document.getElementById('analise-content').innerHTML =
-      '<p style="color:#888780;font-size:13px;text-align:center;padding:20px">Nenhuma conversa encontrada para você na planilha ainda. Aguarde as análises serem geradas.</p>';
-    return;
-  }
-
-  const ultimas = dadosVendedor.slice(-40);
-  const resumo = ultimas.map((r,i) =>
-    `Conv.${i+1} (${r.data}): nota=${r.nota} resultado=${r.resultado} busca="${r.busca}" especialidade="${r.especialidade}" objeção="${r.objecaoPrincipal}" ancoragem=${r.ancoragem} upsell=${r.upsell} checklist=${r.checklist} erros_criticos="${r.errosCriticos}" erros="${r.errosComuns}" acertos="${r.boasPraticas}"`
-  ).join('\n');
-
-  const prompt = `${PLAYBOOK}
-
-Você é o coach comercial da Salute Rede de Clínicas. Analise o desempenho de ${vendedor} com base nas conversas abaixo e gere um diagnóstico completo e personalizado em português brasileiro.
-
-DADOS DAS ÚLTIMAS ${ultimas.length} CONVERSAS DE ${vendedor}:
-${resumo}
-
-Retorne SOMENTE o JSON puro, sem texto antes ou depois, sem blocos markdown, sem ```json, sem ```:
-{
-  "nota_media": número com 1 decimal,
-  "diagnostico": "parágrafo de 3-4 frases sobre o perfil geral, pontos de destaque e principais desafios deste vendedor",
-  "pontos_fortes": ["ponto 1", "ponto 2", "ponto 3"],
-  "erros_recorrentes": ["erro 1 — frequência e impacto", "erro 2", "erro 3"],
-  "objecoes_mais_recebidas": ["objeção 1", "objeção 2", "objeção 3"],
-  "como_lidar_objecoes": ["dica específica para objeção 1", "dica para objeção 2"],
-  "plano_treinamento": [
-    {"semana": 1, "foco": "tema principal", "acao": "exercício específico para praticar"},
-    {"semana": 2, "foco": "tema", "acao": "exercício"},
-    {"semana": 3, "foco": "tema", "acao": "exercício"}
-  ],
-  "meta_proxima_semana": "meta específica e mensurável baseada no principal erro",
-  "mensagem_motivacional": "mensagem personalizada de 1-2 frases para este vendedor"
-}`;
-
-  try {
-    const resp = await fetch('https://salute-proxy.juniormarcovich-ribeiro.workers.dev', {
-      method: 'POST',
-      headers: {
-        'x-api-key': cfg.claude,
-        'anthropic-version': '2023-06-01',
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify({
-        model: 'claude-haiku-4-5-20251001',
-        max_tokens: 1500,
-        messages: [{ role: 'user', content: prompt }]
-      })
-    });
-    const data = await resp.json();
-    if (data.error) throw new Error(data.error.message);
-    const raw = data.content[0].text;
-    let analise;
-    try {
-      const start = raw.indexOf('{');
-      const end = raw.lastIndexOf('}');
-      if (start === -1 || end === -1) throw new Error("JSON não encontrado");
-      analise = JSON.parse(raw.substring(start, end + 1));
-    } catch(e) {
-      throw new Error("Erro ao processar resposta da IA");
-    }
-    renderAnalise(analise);
-  } catch(e) {
-    document.getElementById('analise-content').innerHTML =
-      `<div class="error-msg">Erro ao gerar análise: ${e.message}</div>`;
-  }
-}
-
-function renderAnalise(a) {
-  const nota = parseFloat(a.nota_media) || 0;
-  const corF = nota >= 7 ? '#eaf3de' : nota >= 4 ? '#faeeda' : '#fcebeb';
-  const corT = nota >= 7 ? '#3b6d11' : nota >= 4 ? '#854f0b' : '#a32d2d';
-
-  document.getElementById('analise-content').innerHTML = `
-    <div style="display:flex;align-items:flex-start;gap:14px;margin-bottom:16px">
-      <div style="background:${corF};color:${corT};font-size:28px;font-weight:500;padding:12px 18px;border-radius:10px;flex-shrink:0">${nota.toFixed(1)}</div>
-      <p style="font-size:13px;line-height:1.7;color:#1a1a18">${a.diagnostico}</p>
-    </div>
-
-    <div style="background:#e1f5ee;border:0.5px solid #9fe1cb;border-radius:8px;padding:10px 14px;margin-bottom:16px;font-size:13px;color:#085041;font-style:italic">
-      "${a.mensagem_motivacional}"
-    </div>
-
-    <div class="divider"></div>
-
-    <div class="grid2" style="margin-bottom:16px">
-      <div>
-        <div style="font-size:12px;font-weight:500;color:#3b6d11;margin-bottom:8px">Pontos fortes</div>
-        ${(a.pontos_fortes||[]).map(p=>`<div class="acerto-item">✓ ${p}</div>`).join('')}
-      </div>
-      <div>
-        <div style="font-size:12px;font-weight:500;color:#a32d2d;margin-bottom:8px">Erros recorrentes</div>
-        ${(a.erros_recorrentes||[]).map(e=>`<div class="erro-item">✗ ${e}</div>`).join('')}
-      </div>
-    </div>
-
-    <div style="margin-bottom:16px">
-      <div style="font-size:12px;font-weight:500;margin-bottom:8px">Objeções mais recebidas</div>
-      <div style="margin-bottom:8px">${(a.objecoes_mais_recebidas||[]).map(o=>`<span class="tag">${o}</span>`).join('')}</div>
-      ${(a.como_lidar_objecoes||[]).map(d=>`<div style="font-size:12px;color:#888780;padding:4px 0;border-bottom:0.5px solid #f1efe8">→ ${d}</div>`).join('')}
-    </div>
-
-    <div class="divider"></div>
-
-    <div style="font-size:13px;font-weight:500;margin-bottom:12px">Plano de treinamento — 3 semanas</div>
-    ${(a.plano_treinamento||[]).map(s=>`
-      <div class="plano-item">
-        <div class="plano-semana">Semana ${s.semana} — ${s.foco}</div>
-        <div class="plano-acao">${s.acao}</div>
-      </div>
-    `).join('')}
-
-    <div class="meta-box">
-      <div class="meta-label">Meta da próxima semana</div>
-      <div class="meta-texto">${a.meta_proxima_semana}</div>
-    </div>
-
-    <button class="btn btn-outline" style="margin-top:16px" onclick="iniciarRoleplay()">
-      Praticar com roleplay agora
-    </button>
-  `;
-}
-
-async function iniciarRoleplay() {
-  mostrar('screen-roleplay');
-  chatHistory = [];
-  document.getElementById('chat-messages').innerHTML = '';
-  document.getElementById('chat-input').value = '';
-
-  const errosFreq = dadosVendedor.length > 0
-    ? [...new Set(dadosVendedor.flatMap(r =>
-        (r.errosCriticos + ' | ' + r.errosComuns).split('|').map(e => e.trim()).filter(Boolean)
-      ))].slice(0, 4).join(', ')
-    : 'não aplicar ancoragem correta, não tentar upsell de dependentes';
-
-  const objecoes = dadosVendedor.length > 0
-    ? [...new Set(dadosVendedor.map(r => r.objecaoPrincipal).filter(Boolean))].slice(0, 3).join(', ')
-    : 'preço alto, vai pensar, já tem plano';
-
-  const buscasComuns = dadosVendedor.length > 0
-    ? [...new Set(dadosVendedor.map(r => r.busca).filter(Boolean))].slice(0, 3).join(', ')
-    : 'consulta médica, exame laboratorial';
-
-  sistemaRoleplayAtivo = `${PLAYBOOK}
-
-Você é um CLIENTE REAL simulado para treinamento do atendente ${vendedor} da Salute Rede de Clínicas.
-
-PERFIL DO CLIENTE (mantenha durante todo o roleplay):
-- Está buscando: ${buscasComuns || 'uma consulta médica ou exame'}
-- Tem uma necessidade de saúde real e imediata
-- Responde como cliente de WhatsApp: mensagens curtas, naturais, às vezes hesitantes
-- Vai levantar objeções naturais ao longo da conversa
-- Avança para fechar SE o atendente aplicar bem o playbook
-
-INSTRUÇÕES DO ROLEPLAY:
-1. Comece apresentando sua necessidade como cliente chegando pelo WhatsApp
-2. Responda naturalmente às mensagens do atendente
-3. Se o atendente NÃO sondar antes de dar preço: resista mais, diga "mas quanto custa?"
-4. Se o atendente NÃO ancorar no particular antes do assinante: demonstre confusão
-5. Levante pelo menos 1-2 objeções reais (preço, vai pensar, já tem plano, etc.)
-6. Se o atendente aplicar bem o playbook: avance progressivamente para fechar
-7. Se errar muito: não feche, peça para pensar
-
-OBJEÇÕES para usar: ${objecoes}
-ERROS FREQUENTES deste atendente (seja mais rigoroso nestes pontos): ${errosFreq}
-
-AVALIAÇÃO: Após CADA resposta do atendente, inclua no final da sua mensagem uma linha oculta:
-[AVALIACAO: nota_0_a_10 | feedback_de_1_frase_sobre_o_que_fez_bem_ou_errou]
-
-Comece agora apresentando sua necessidade como cliente.`;
-
-  adicionarMensagem('system', 'Roleplay iniciado. O agente simula um cliente real. Responda como atendente da Salute.');
-
-  const loadId = addLoading('agent');
-  try {
-    const resp = await fetch('https://salute-proxy.juniormarcovich-ribeiro.workers.dev', {
-      method: 'POST',
-      headers: {
-        'x-api-key': cfg.claude,
-        'anthropic-version': '2023-06-01',
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify({
-        model: 'claude-haiku-4-5-20251001',
-        max_tokens: 500,
-        system: sistemaRoleplayAtivo,
-        messages: [{ role: 'user', content: 'Inicie o roleplay apresentando sua necessidade como cliente.' }]
-      })
-    });
-    const data = await resp.json();
-    if (data.error) throw new Error(data.error.message);
-    let texto = (data.content && data.content[0] && data.content[0].text) ? data.content[0].text : "";
-    if (!texto) throw new Error("Resposta vazia da IA");
-    const avaliacao = extrairAvaliacao(texto);
-    texto = removerAvaliacao(texto);
-    removeLoading(loadId);
-    adicionarMensagem('agent', texto);
-    chatHistory.push({ role: 'assistant', content: texto });
-    if (avaliacao) mostrarAvaliacao(avaliacao);
-    scrollChat();
-  } catch(e) {
-    removeLoading(loadId);
-    adicionarMensagem('system', 'Erro ao iniciar roleplay: ' + e.message);
-  }
-}
-
-async function enviarMensagem() {
-  const input = document.getElementById('chat-input');
-  const texto = input.value.trim();
-  if (!texto) return;
-  input.value = '';
-
-  adicionarMensagem('user', texto);
-  chatHistory.push({ role: 'user', content: texto });
-
-  const loadId = addLoading('agent');
-  try {
-    const msgs = chatHistory.slice(-12);
-    const resp = await fetch('https://salute-proxy.juniormarcovich-ribeiro.workers.dev', {
-      method: 'POST',
-      headers: {
-        'x-api-key': cfg.claude,
-        'anthropic-version': '2023-06-01',
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify({
-        model: 'claude-haiku-4-5-20251001',
-        max_tokens: 500,
-        system: sistemaRoleplayAtivo,
-        messages: msgs
-      })
-    });
-    const data = await resp.json();
-    if (data.error) throw new Error(data.error.message);
-    let texto = (data.content && data.content[0] && data.content[0].text) ? data.content[0].text : "";
-    if (!texto) throw new Error("Resposta vazia da IA");
-    const avaliacao = extrairAvaliacao(texto);
-    texto = removerAvaliacao(texto);
-    removeLoading(loadId);
-    adicionarMensagem('agent', texto);
-    chatHistory.push({ role: 'assistant', content: texto });
-    if (avaliacao) mostrarAvaliacao(avaliacao);
-    scrollChat();
-  } catch(e) {
-    removeLoading(loadId);
-    adicionarMensagem('system', 'Erro: ' + e.message);
-  }
-}
-
-function extrairAvaliacao(texto) {
-  const m = texto.match(/\[AVALIACAO:\s*([\d.]+)\s*\|\s*(.+?)\]/i);
-  if (!m) return null;
-  return { nota: parseFloat(m[1]), feedback: m[2].trim() };
-}
-
-function removerAvaliacao(texto) {
-  return texto.replace(/\[AVALIACAO:.*?\]/gi, '').trim();
-}
-
-function mostrarAvaliacao(av) {
-  const chat = document.getElementById('chat-messages');
-  const corF = av.nota >= 7 ? '#eaf3de' : av.nota >= 4 ? '#faeeda' : '#fcebeb';
-  const corT = av.nota >= 7 ? '#3b6d11' : av.nota >= 4 ? '#854f0b' : '#a32d2d';
-  chat.insertAdjacentHTML('beforeend',
-    `<div class="avaliacao" style="background:${corF};color:${corT}">
-      <strong>${av.nota}/10</strong> — ${av.feedback}
-    </div>`
-  );
-}
-
-function adicionarMensagem(tipo, texto) {
-  const chat = document.getElementById('chat-messages');
-  if (tipo === 'system') {
-    chat.insertAdjacentHTML('beforeend', `<div class="bubble bubble-system">${texto}</div>`);
-  } else if (tipo === 'agent') {
-    chat.insertAdjacentHTML('beforeend',
-      `<div class="msg msg-agent">
-        <div class="sender">Cliente simulado</div>
-        <div class="bubble bubble-agent">${texto.replace(/\n/g,'<br>')}</div>
-      </div>`
-    );
-  } else {
-    chat.insertAdjacentHTML('beforeend',
-      `<div class="msg msg-user">
-        <div class="sender" style="text-align:right">${vendedor}</div>
-        <div class="bubble bubble-user">${texto.replace(/\n/g,'<br>')}</div>
-      </div>`
-    );
-  }
-  scrollChat();
-}
-
-function addLoading(tipo) {
-  const id = 'load-' + Date.now();
-  const chat = document.getElementById('chat-messages');
-  chat.insertAdjacentHTML('beforeend',
-    `<div id="${id}" class="msg msg-${tipo}">
-      <div class="bubble bubble-${tipo}">
-        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-      </div>
-    </div>`
-  );
-  scrollChat();
-  return id;
-}
-
-function removeLoading(id) {
-  const el = document.getElementById(id);
-  if (el) el.remove();
-}
-
-function scrollChat() {
-  const c = document.getElementById('chat-messages');
-  c.scrollTop = c.scrollHeight;
-}
-
-function voltarMenu() {
-  mostrar('screen-menu');
+  document.getElementById("avatar-initials").textContent = initials(vendedor);
+  document.getElementById("menu-nome").textContent = vendedor;
+  mostrar("screen-menu");
   carregarDados();
 }
 
-function sair() {
-  vendedor = '';
-  dadosVendedor = [];
-  chatHistory = [];
-  document.getElementById('input-nome').value = '';
-  document.getElementById('erro-login').classList.add('hidden');
-  mostrar('screen-login');
+function csvLinha(l) {
+  var cols=[], cur="", q=false;
+  for (var i=0;i<l.length;i++){
+    var c=l[i];
+    if(c==='"'){q=!q;}
+    else if(c===","&&!q){cols.push(cur.trim());cur="";}
+    else{cur+=c;}
+  }
+  cols.push(cur.trim());
+  return cols;
 }
 
-window.onload = () => {
-  mostrar('screen-login');
-};
+function carregarDados() {
+  document.getElementById("menu-stats").textContent = "Carregando...";
+  var url = "https://docs.google.com/spreadsheets/d/"+SHEET_ID+"/gviz/tq?tqx=out:csv&sheet="+encodeURIComponent(SHEET_ABA);
+  fetch(url).then(function(r){return r.text();}).then(function(csv){
+    var linhas = csv.split("\n").slice(1).filter(function(l){return l.trim();});
+    dados = linhas.map(function(l){return csvLinha(l);})
+      .filter(function(c){return (c[1]||"").toLowerCase()===vendedor.toLowerCase();})
+      .map(function(c){return {data:c[0]||"",nota:parseFloat(c[4])||0,resultado:c[5]||"",busca:c[6]||"",objecao:c[12]||"",errosCrit:c[20]||"",errosCom:c[21]||"",acertos:c[22]||""};});
+    var total=dados.length;
+    var soma=dados.reduce(function(s,r){return s+r.nota;},0);
+    var media=total>0?(soma/total).toFixed(1):"--";
+    var vendas=dados.filter(function(r){return r.resultado==="VENDA";}).length;
+    var taxa=total>0?Math.round(vendas/total*100):0;
+    document.getElementById("menu-stats").textContent=total+" conversas · Media "+media+" · "+taxa+"% conversao";
+    var n=parseFloat(media);
+    var cf=n>=7?"#eaf3de":n>=4?"#faeeda":"#fcebeb";
+    var ct=n>=7?"#3b6d11":n>=4?"#854f0b":"#a32d2d";
+    document.getElementById("menu-badge").innerHTML="<span style='background:"+cf+";color:"+ct+";padding:4px 12px;border-radius:20px;font-size:13px;font-weight:500'>"+media+"/10</span>";
+    document.getElementById("menu-cards").innerHTML="<div class='stat'><div class='stat-l'>Conversas</div><div class='stat-v'>"+total+"</div></div><div class='stat'><div class='stat-l'>Vendas</div><div class='stat-v' style='color:#3b6d11'>"+vendas+"</div></div>";
+  }).catch(function(){
+    document.getElementById("menu-stats").textContent="Erro ao carregar dados.";
+  });
+}
+
+function claude(msgs, system, max) {
+  var body = {model:"claude-haiku-4-5-20251001",max_tokens:max||1000,messages:msgs};
+  if (system) body.system = system;
+  return fetch(PROXY,{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(body)})
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if (d.error) throw new Error(d.error.message);
+      return d.content[0].text;
+    });
+}
+
+function extrairJSON(txt) {
+  var s = txt.indexOf("{");
+  var e = txt.lastIndexOf("}");
+  if (s===-1||e===-1) throw new Error("JSON nao encontrado");
+  return JSON.parse(txt.substring(s,e+1));
+}
+
+function iniciarAnalise() {
+  mostrar("screen-analise");
+  document.getElementById("analise-content").innerHTML = "<div class='loading'><span class='dot'></span><span class='dot'></span><span class='dot'></span><br><br>Analisando suas conversas...</div>";
+  if (!dados.length) {
+    document.getElementById("analise-content").innerHTML = "<p style='color:#888780;font-size:13px;text-align:center;padding:20px'>Nenhuma conversa encontrada para voce ainda.</p>";
+    return;
+  }
+  var ul = dados.slice(-30);
+  var res = ul.map(function(r,i){return "Conv."+(i+1)+"("+r.data+"): nota="+r.nota+" resultado="+r.resultado+" busca="+r.busca+" objecao="+r.objecao+" errosCrit="+r.errosCrit+" errosCom="+r.errosCom+" acertos="+r.acertos;}).join("\n");
+  var prompt = PB+"\n\nAnalise o desempenho de "+vendedor+" e retorne APENAS este JSON sem texto antes ou depois:\n{\"nota_media\":0.0,\"diagnostico\":\"\",\"pontos_fortes\":[],\"erros_recorrentes\":[],\"objecoes_mais_recebidas\":[],\"como_lidar_objecoes\":[],\"plano_treinamento\":[{\"semana\":1,\"foco\":\"\",\"acao\":\"\"},{\"semana\":2,\"foco\":\"\",\"acao\":\"\"},{\"semana\":3,\"foco\":\"\",\"acao\":\"\"}],\"meta_proxima_semana\":\"\",\"mensagem_motivacional\":\"\"}\n\nDADOS:\n"+res;
+  claude([{role:"user",content:prompt}],null,1500).then(function(raw){
+    renderAnalise(extrairJSON(raw));
+  }).catch(function(e){
+    document.getElementById("analise-content").innerHTML="<div class='error-msg'>Erro: "+e.message+"</div>";
+  });
+}
+
+function renderAnalise(a) {
+  var n=parseFloat(a.nota_media)||0;
+  var cf=n>=7?"#eaf3de":n>=4?"#faeeda":"#fcebeb";
+  var ct=n>=7?"#3b6d11":n>=4?"#854f0b":"#a32d2d";
+  var h="<div style='display:flex;align-items:flex-start;gap:14px;margin-bottom:16px'><div style='background:"+cf+";color:"+ct+";font-size:28px;font-weight:500;padding:12px 18px;border-radius:10px;flex-shrink:0'>"+n.toFixed(1)+"</div><p style='font-size:13px;line-height:1.7'>"+esc(a.diagnostico||"")+"</p></div>";
+  if (a.mensagem_motivacional) h+="<div style='background:#e1f5ee;border:0.5px solid #9fe1cb;border-radius:8px;padding:10px 14px;margin-bottom:16px;font-size:13px;color:#085041;font-style:italic'>\""+esc(a.mensagem_motivacional)+"\"</div>";
+  h+="<div class='divider'></div><div class='grid2' style='margin-bottom:16px'><div><div style='font-size:12px;font-weight:500;color:#3b6d11;margin-bottom:8px'>Pontos fortes</div>";
+  (a.pontos_fortes||[]).forEach(function(p){h+="<div class='acerto-item'>\u2713 "+esc(p)+"</div>";});
+  h+="</div><div><div style='font-size:12px;font-weight:500;color:#a32d2d;margin-bottom:8px'>Erros recorrentes</div>";
+  (a.erros_recorrentes||[]).forEach(function(e){h+="<div class='erro-item'>\u2717 "+esc(e)+"</div>";});
+  h+="</div></div>";
+  if ((a.objecoes_mais_recebidas||[]).length) {
+    h+="<div style='margin-bottom:16px'><div style='font-size:12px;font-weight:500;margin-bottom:8px'>Objecoes mais recebidas</div><div>";
+    a.objecoes_mais_recebidas.forEach(function(o){h+="<span class='tag'>"+esc(o)+"</span>";});
+    h+="</div>";
+    (a.como_lidar_objecoes||[]).forEach(function(d){h+="<div style='font-size:12px;color:#888780;padding:4px 0;border-bottom:0.5px solid #f1efe8'>\u2192 "+esc(d)+"</div>";});
+    h+="</div>";
+  }
+  h+="<div class='divider'></div><div style='font-size:13px;font-weight:500;margin-bottom:12px'>Plano de treinamento - 3 semanas</div>";
+  (a.plano_treinamento||[]).forEach(function(s){h+="<div class='plano-item'><div class='plano-semana'>Semana "+s.semana+" - "+esc(s.foco)+"</div><div class='plano-acao'>"+esc(s.acao)+"</div></div>";});
+  if (a.meta_proxima_semana) h+="<div style='background:#e1f5ee;border:0.5px solid #9fe1cb;border-radius:8px;padding:12px;margin-top:8px'><div style='font-size:11px;color:#085041;margin-bottom:3px'>Meta da proxima semana</div><div style='font-size:13px;color:#085041;font-weight:500'>"+esc(a.meta_proxima_semana)+"</div></div>";
+  h+="<button class='btn btn-outline' style='margin-top:16px' onclick='iniciarRoleplay()'>Praticar com roleplay</button>";
+  document.getElementById("analise-content").innerHTML=h;
+}
+
+function esc(s) {
+  return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
+
+function iniciarRoleplay() {
+  mostrar("screen-roleplay");
+  hist=[];
+  document.getElementById("chat-messages").innerHTML="";
+  document.getElementById("chat-input").value="";
+  var erros=dados.slice(-10).map(function(r){return r.errosCrit+" "+r.errosCom;}).join(" ").split(/[|,]/).slice(0,3).join(", ")||"ancoragem incorreta";
+  var objs=dados.map(function(r){return r.objecao;}).filter(Boolean).slice(0,3).join(", ")||"preco, vou pensar";
+  sys=PB+"\n\nVoce e um CLIENTE SIMULADO para treinamento de "+vendedor+".\nResponda como cliente de WhatsApp: mensagens curtas e naturais.\nLevante 1-2 objecoes. Se atendente sondar antes do preco: avance. Se nao sondar: resista.\nAncoragem correta (particular antes assinante): demonstre interesse. Errada: confusao.\nObjecoes para usar: "+objs+"\nErros frequentes deste atendente: "+erros+"\nApos CADA resposta do atendente inclua ao final: [AVALIACAO: nota | feedback 1 frase]\nComece apresentando sua necessidade.";
+  addMsg("system","Roleplay iniciado. Responda como atendente da Salute.");
+  var lid=addLoad();
+  claude([{role:"user",content:"Inicie como cliente."}],sys,400).then(function(t){
+    removeLoad(lid);
+    var av=getAv(t); t=rmAv(t);
+    addMsg("agent",t); hist.push({role:"assistant",content:t});
+    if(av) showAv(av);
+  }).catch(function(e){removeLoad(lid);addMsg("system","Erro: "+e.message);});
+}
+
+function enviarMensagem() {
+  var inp=document.getElementById("chat-input");
+  var txt=inp.value.trim();
+  if(!txt) return;
+  inp.value="";
+  addMsg("user",txt);
+  hist.push({role:"user",content:txt});
+  var lid=addLoad();
+  claude(hist.slice(-10),sys,400).then(function(t){
+    removeLoad(lid);
+    var av=getAv(t); t=rmAv(t);
+    addMsg("agent",t); hist.push({role:"assistant",content:t});
+    if(av) showAv(av);
+  }).catch(function(e){removeLoad(lid);addMsg("system","Erro: "+e.message);});
+}
+
+function getAv(t){var m=t.match(/\[AVALIACAO:\s*([\d.]+)\s*\|\s*(.+?)\]/i);return m?{nota:parseFloat(m[1]),fb:m[2].trim()}:null;}
+function rmAv(t){return t.replace(/\[AVALIACAO:.*?\]/gi,"").trim();}
+function showAv(av){
+  var cf=av.nota>=7?"#eaf3de":av.nota>=4?"#faeeda":"#fcebeb";
+  var ct=av.nota>=7?"#3b6d11":av.nota>=4?"#854f0b":"#a32d2d";
+  document.getElementById("chat-messages").insertAdjacentHTML("beforeend","<div class='avaliacao' style='background:"+cf+";color:"+ct+"'><strong>"+av.nota+"/10</strong> - "+esc(av.fb)+"</div>");
+  scrollC();
+}
+function addMsg(tipo,txt){
+  var c=document.getElementById("chat-messages");
+  var e=esc(txt).replace(/\n/g,"<br>");
+  if(tipo==="system") c.insertAdjacentHTML("beforeend","<div class='bubble bubble-system'>"+e+"</div>");
+  else if(tipo==="agent") c.insertAdjacentHTML("beforeend","<div class='msg msg-agent'><div class='sender'>Cliente simulado</div><div class='bubble bubble-agent'>"+e+"</div></div>");
+  else c.insertAdjacentHTML("beforeend","<div class='msg msg-user'><div class='sender' style='text-align:right'>"+vendedor+"</div><div class='bubble bubble-user'>"+e+"</div></div>");
+  scrollC();
+}
+function addLoad(){var id="l"+Date.now();document.getElementById("chat-messages").insertAdjacentHTML("beforeend","<div id='"+id+"' class='msg msg-agent'><div class='bubble bubble-agent'><span class='dot'></span><span class='dot'></span><span class='dot'></span></div></div>");scrollC();return id;}
+function removeLoad(id){var el=document.getElementById(id);if(el)el.remove();}
+function scrollC(){var c=document.getElementById("chat-messages");c.scrollTop=c.scrollHeight;}
+function voltarMenu(){mostrar("screen-menu");carregarDados();}
+function sair(){vendedor="";dados=[];hist=[];document.getElementById("input-nome").value="";document.getElementById("erro-login").classList.add("hidden");mostrar("screen-login");}
 </script>
 </body>
 </html>
