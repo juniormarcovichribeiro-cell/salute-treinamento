@@ -3,354 +3,562 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Agente de Treinamento Comercial — Salute</title>
+<title>Agente de Treinamento — Salute</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:system-ui,-apple-system,sans-serif;background:#f7f6f2;min-height:100vh;color:#1a1a18}
-.app{max-width:800px;margin:0 auto;padding:20px}
-.card{background:#fff;border:0.5px solid #e0ddd6;border-radius:12px;padding:20px;margin-bottom:16px}
-.header{text-align:center;padding:24px 20px 20px}
-.logo{font-size:12px;font-weight:500;color:#1d9e75;letter-spacing:1.5px;margin-bottom:8px;text-transform:uppercase}
-h1{font-size:22px;font-weight:500;color:#1a1a18;margin-bottom:4px}
+.app{max-width:780px;margin:0 auto;padding:20px}
+.card{background:#fff;border:1px solid #e0ddd6;border-radius:12px;padding:20px;margin-bottom:16px}
+.logo{font-size:11px;font-weight:600;color:#1d9e75;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
+h1{font-size:22px;font-weight:500;margin-bottom:4px}
 .sub{font-size:13px;color:#888780}
-label{display:block;font-size:11px;color:#888780;margin-bottom:4px}
-input{width:100%;padding:9px 11px;border:0.5px solid #d3d1c7;border-radius:8px;font-size:13px;background:#fafaf8;color:#1a1a18;outline:none}
-input:focus{border-color:#1d9e75}
-.btn{padding:9px 18px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;border:0.5px solid #d3d1c7;background:transparent;color:#1a1a18;width:100%;margin-top:12px}
-.btn-p{background:#1d9e75;border-color:#1d9e75;color:#fff}
-.btn-p:hover{background:#0f6e56}
-.btn-outline{border-color:#1d9e75;color:#1d9e75;background:transparent}
-.btn-outline:hover{background:#e1f5ee}
-.btn-sm{width:auto;padding:5px 14px;font-size:12px;margin:0}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.lbl{display:block;font-size:11px;color:#888780;margin-bottom:4px}
+.inp{width:100%;padding:9px 11px;border:1px solid #d3d1c7;border-radius:8px;font-size:14px;background:#fafaf8;color:#1a1a18;outline:none}
+.inp:focus{border-color:#1d9e75}
+.btn{display:block;width:100%;padding:10px 16px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;border:1px solid #d3d1c7;background:transparent;color:#1a1a18;margin-top:10px}
+.btn-green{background:#1d9e75;border-color:#1d9e75;color:#fff}
+.btn-green:hover{background:#0f6e56}
+.btn-outline{border-color:#1d9e75;color:#1d9e75}
+.btn-sm{width:auto;padding:5px 12px;margin:0;font-size:12px}
+.row{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px}
 .stat{background:#f1efe8;border-radius:8px;padding:12px;text-align:center}
-.stat-l{font-size:11px;color:#888780;margin-bottom:4px}
+.stat-l{font-size:11px;color:#888780;margin-bottom:3px}
 .stat-v{font-size:20px;font-weight:500}
-.chat{display:flex;flex-direction:column;gap:10px;max-height:460px;overflow-y:auto;padding:4px 0}
-.msg{display:flex;flex-direction:column}
-.msg-agent{align-items:flex-start}
-.msg-user{align-items:flex-end}
-.bubble{padding:10px 14px;font-size:13px;line-height:1.6;word-break:break-word;max-width:85%}
-.bubble-agent{background:#f1efe8;border-radius:2px 12px 12px 12px;color:#1a1a18}
-.bubble-user{background:#1d9e75;border-radius:12px 2px 12px 12px;color:#fff}
-.bubble-system{background:#e1f5ee;border-radius:8px;color:#085041;font-size:12px;padding:8px 12px;border:0.5px solid #9fe1cb}
-.sender{font-size:10px;color:#888780;margin-bottom:2px;padding:0 4px}
-.input-row{display:flex;gap:8px;margin-top:12px}
-.input-row input{flex:1;margin:0}
-.divider{border:none;border-top:0.5px solid #e0ddd6;margin:16px 0}
+.mode-btn{display:block;width:100%;padding:14px 16px;border-radius:10px;border:1px solid #d3d1c7;background:#fff;cursor:pointer;text-align:left;margin-bottom:10px}
+.mode-btn:hover{border-color:#1d9e75;background:#f0fbf7}
+.mode-title{font-size:14px;font-weight:500;margin-bottom:2px}
+.mode-desc{font-size:12px;color:#888780}
+.divider{border:none;border-top:1px solid #e0ddd6;margin:14px 0}
+.avatar{width:40px;height:40px;border-radius:50%;background:#e1f5ee;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:14px;color:#0f6e56;flex-shrink:0}
 .tag{display:inline-block;background:#f1efe8;color:#5f5e5a;font-size:11px;padding:3px 8px;border-radius:4px;margin:2px}
-.erro-item{font-size:12px;color:#a32d2d;padding:5px 0;border-bottom:0.5px solid #f1efe8;line-height:1.4}
-.acerto-item{font-size:12px;color:#3b6d11;padding:5px 0;border-bottom:0.5px solid #f1efe8;line-height:1.4}
-.hidden{display:none!important}
-.loading{text-align:center;color:#888780;font-size:13px;padding:24px}
-.dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#1d9e75;animation:pulse 1s infinite;margin:0 2px}
+.acerto{font-size:12px;color:#3b6d11;padding:5px 0;border-bottom:1px solid #f1efe8}
+.erro{font-size:12px;color:#a32d2d;padding:5px 0;border-bottom:1px solid #f1efe8}
+.plano{background:#f7f6f2;border-radius:8px;padding:11px;margin-bottom:8px}
+.plano-sem{font-size:11px;color:#888780;margin-bottom:2px}
+.plano-ac{font-size:12px;line-height:1.5}
+.chat{display:flex;flex-direction:column;gap:10px;max-height:440px;overflow-y:auto;padding:2px 0}
+.msg{display:flex;flex-direction:column}
+.mag{align-items:flex-start}
+.mug{align-items:flex-end}
+.bub{padding:10px 13px;font-size:13px;line-height:1.6;word-break:break-word;max-width:86%}
+.bag{background:#f1efe8;border-radius:2px 12px 12px 12px}
+.bug{background:#1d9e75;color:#fff;border-radius:12px 2px 12px 12px}
+.bsy{background:#e1f5ee;border-radius:8px;color:#085041;font-size:12px;padding:8px 12px;border:1px solid #9fe1cb}
+.snd{font-size:10px;color:#888780;margin-bottom:2px;padding:0 3px}
+.inp-row{display:flex;gap:8px;margin-top:10px}
+.inp-row .inp{flex:1;margin:0}
+.av{border-radius:8px;padding:8px 12px;font-size:12px;margin:3px 0 7px}
+.loading{text-align:center;color:#888780;padding:24px;font-size:13px}
+.dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#1d9e75;animation:p 1s infinite;margin:0 2px}
 .dot:nth-child(2){animation-delay:.2s}
 .dot:nth-child(3){animation-delay:.4s}
-@keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
-.mode-btn{padding:16px;border-radius:10px;border:0.5px solid #d3d1c7;background:#fff;cursor:pointer;text-align:left;width:100%;transition:border-color .15s,background .15s}
-.mode-btn:hover{border-color:#1d9e75;background:#e1f5ee}
-.mode-title{font-size:14px;font-weight:500;color:#1a1a18;margin-bottom:3px}
-.mode-desc{font-size:12px;color:#888780}
-.avaliacao{border-radius:8px;padding:8px 12px;font-size:12px;margin:4px 0 8px;line-height:1.5}
-.avatar{width:42px;height:42px;border-radius:50%;background:#e1f5ee;display:flex;align-items:center;justify-content:center;font-weight:500;font-size:15px;color:#0f6e56;flex-shrink:0}
-.plano-item{background:#f7f6f2;border-radius:8px;padding:12px;margin-bottom:8px}
-.plano-semana{font-size:11px;color:#888780;margin-bottom:2px}
-.plano-acao{font-size:12px;color:#1a1a18;line-height:1.5}
-.header-line{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
-.header-title{font-size:15px;font-weight:500}
-.info-box{font-size:11px;color:#888780;background:#f7f6f2;border-radius:8px;padding:8px 12px;margin-bottom:12px;line-height:1.5}
-.error-msg{color:#a32d2d;font-size:13px;background:#fef2f2;border:0.5px solid #f09595;border-radius:8px;padding:10px 14px}
+@keyframes p{0%,100%{opacity:.3}50%{opacity:1}}
+.errmsg{color:#a32d2d;font-size:13px;background:#fef2f2;border:1px solid #f09595;border-radius:8px;padding:10px}
+.hidden{display:none!important}
 </style>
 </head>
 <body>
 <div class="app">
 
-  <div class="card header">
+  <div class="card" style="text-align:center;padding:24px 20px">
     <div class="logo">Salute Rede de Clinicas</div>
     <h1>Agente de Treinamento Comercial</h1>
     <p class="sub">Analise de desempenho + Roleplay baseados no Playbook v3.0</p>
   </div>
 
-  <div id="screen-login" class="card">
-    <div style="margin-bottom:4px;font-size:15px;font-weight:500">Ola! Qual e o seu nome?</div>
-    <div style="font-size:12px;color:#888780;margin-bottom:16px">Digite seu nome exatamente como cadastrado.</div>
-    <input type="text" id="input-nome" placeholder="Ex: Brendon Vianna" onkeydown="if(event.key==='Enter')entrar()" />
-    <div id="erro-login" class="hidden" style="font-size:12px;color:#a32d2d;margin-top:6px"></div>
-    <button class="btn btn-p" onclick="entrar()">Entrar</button>
+  <div id="tela-login" class="card">
+    <div style="font-size:15px;font-weight:500;margin-bottom:4px">Ola! Qual e o seu nome?</div>
+    <div style="font-size:12px;color:#888780;margin-bottom:14px">Digite seu nome exatamente como cadastrado no sistema.</div>
+    <label class="lbl" for="inp-nome">Seu nome</label>
+    <input class="inp" type="text" id="inp-nome" placeholder="Ex: Brendon Vianna" />
+    <div id="err-login" class="hidden" style="font-size:12px;color:#a32d2d;margin-top:6px"></div>
+    <button class="btn btn-green" id="btn-entrar">Entrar</button>
   </div>
 
-  <div id="screen-menu" class="hidden">
+  <div id="tela-menu" class="hidden">
     <div class="card">
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
-        <div class="avatar" id="avatar-initials">??</div>
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+        <div class="avatar" id="av-initials">??</div>
         <div style="flex:1">
-          <div style="font-weight:500;font-size:15px" id="menu-nome"></div>
-          <div style="font-size:12px;color:#888780" id="menu-stats">Carregando...</div>
+          <div style="font-weight:500;font-size:15px" id="av-nome"></div>
+          <div style="font-size:12px;color:#888780" id="av-stats">Carregando...</div>
         </div>
-        <div id="menu-badge"></div>
+        <div id="av-badge"></div>
       </div>
-      <div class="grid2" id="menu-cards" style="margin-bottom:16px"></div>
+      <div class="grid2" id="av-cards"></div>
       <div class="divider"></div>
-      <div style="display:flex;flex-direction:column;gap:10px">
-        <button class="mode-btn" onclick="iniciarAnalise()">
-          <div class="mode-title">Ver meu desempenho</div>
-          <div class="mode-desc">Analise detalhada + plano de treinamento personalizado</div>
-        </button>
-        <button class="mode-btn" onclick="iniciarRoleplay()">
-          <div class="mode-title">Fazer roleplay</div>
-          <div class="mode-desc">Simule um atendimento real com avaliacao em tempo real</div>
-        </button>
-      </div>
-      <button class="btn" style="margin-top:12px;font-size:12px" onclick="sair()">Sair</button>
+      <button class="mode-btn" id="btn-analise">
+        <div class="mode-title">Ver meu desempenho</div>
+        <div class="mode-desc">Analise detalhada das suas conversas + plano de treinamento personalizado</div>
+      </button>
+      <button class="mode-btn" id="btn-roleplay">
+        <div class="mode-title">Fazer roleplay</div>
+        <div class="mode-desc">Simule um atendimento real com avaliacao em tempo real</div>
+      </button>
+      <button class="btn" id="btn-sair" style="font-size:12px;margin-top:4px">Sair</button>
     </div>
   </div>
 
-  <div id="screen-analise" class="hidden">
+  <div id="tela-analise" class="hidden">
     <div class="card">
-      <div class="header-line">
-        <div class="header-title">Seu desempenho</div>
-        <button class="btn btn-sm" onclick="voltarMenu()">Voltar</button>
+      <div class="row">
+        <div style="font-size:15px;font-weight:500">Seu desempenho</div>
+        <button class="btn btn-sm" id="btn-volta-analise">Voltar</button>
       </div>
-      <div id="analise-content">
+      <div id="analise-body">
         <div class="loading"><span class="dot"></span><span class="dot"></span><span class="dot"></span><br><br>Analisando suas conversas...</div>
       </div>
     </div>
   </div>
 
-  <div id="screen-roleplay" class="hidden">
+  <div id="tela-roleplay" class="hidden">
     <div class="card">
-      <div class="header-line">
-        <div class="header-title">Roleplay</div>
-        <button class="btn btn-sm" onclick="voltarMenu()">Encerrar</button>
+      <div class="row">
+        <div style="font-size:15px;font-weight:500">Roleplay — cliente simulado</div>
+        <button class="btn btn-sm" id="btn-volta-roleplay">Encerrar</button>
       </div>
-      <div class="info-box">Voce e o atendente. Responda ao cliente como faria no WhatsApp. O agente avalia cada mensagem com base no Playbook.</div>
-      <div class="chat" id="chat-messages"></div>
-      <div class="input-row">
-        <input type="text" id="chat-input" placeholder="Digite sua resposta..." onkeydown="if(event.key==='Enter')enviarMensagem()" />
-        <button class="btn btn-p btn-sm" onclick="enviarMensagem()">Enviar</button>
+      <div style="font-size:11px;color:#888780;background:#f7f6f2;border-radius:8px;padding:8px 12px;margin-bottom:12px">
+        Voce e o atendente. Responda ao cliente como faria no WhatsApp. O agente avalia cada mensagem com base no Playbook Salute v3.0.
+      </div>
+      <div class="chat" id="chat"></div>
+      <div class="inp-row">
+        <input class="inp" type="text" id="inp-chat" placeholder="Digite sua resposta como atendente..." />
+        <button class="btn btn-green btn-sm" id="btn-enviar">Enviar</button>
       </div>
     </div>
   </div>
 
 </div>
+
 <script>
+(function() {
+
 var PROXY = "https://salute-proxy.juniormarcovich-ribeiro.workers.dev";
 var SHEET_ID = "1rFUKlDjFLn7e0MQmBJ7Dl7BCXXMzwdBjDv2gwAoLfTI";
 var SHEET_ABA = "An\u00e1lise Di\u00e1ria";
-var ATENDENTES = ["Alessandra Silveira","Aline Lemos","Anelise Olgini","Brendon Vianna","Catiani Longarai","Debora Guimaraes","Deividy Silva","Douglas de Souza","Hondyne Fernandes","Jamila Rosa","J\u00e9ssica Langner","Lucia Cristiane","Michelle Rodrigues","Rafael Dias Miranda","Roselaine Brazeiro","Tatiana Almeida","Viviane Freitas"];
-var PB = "PLAYBOOK SALUTE v3.0: ABERTURA: apresentar nome/cargo, confirmar nome lead, responder ate 5min. SONDAGEM: min 2 perguntas antes de preco, identificar necessidade/regiao/para quem/cobertura/dependentes. ANCORAGEM CRITICA: particular ANTES do assinante, nunca inverter, calcular implicacao de custo. PROPOSTA: upsell dependentes min 1x. OBJECOES: acolher, isolar (tirando isso tem mais algo?), validar (se resolver avancaria?), responder 100%. FECHAMENTO CRITICO: presumido, checklist 3 SIMs (nao e plano saude / sem reembolso / 12 meses multa 50%). SE NAO FECHOU: agendar data hora exatas. ERROS CRITICOS: assinante antes particular / vou pensar sem data / sem checklist / tabela completa / sem upsell. PRECOS POA: 1v R$79 2v R$144 3v R$195 5+v R$275. CONSULTAS: clinico particular R$275 assinante R$54. Especialista particular R$305 assinante R$94.";
 
-var vendedor = "", dados = [], hist = [], sys = "";
+var LISTA = [
+  "Alessandra Silveira","Aline Lemos","Anelise Olgini","Brendon Vianna",
+  "Catiani Longarai","Debora Guimaraes","Deividy Silva","Douglas de Souza",
+  "Hondyne Fernandes","Jamila Rosa","J\u00e9ssica Langner","Lucia Cristiane",
+  "Michelle Rodrigues","Rafael Dias Miranda","Roselaine Brazeiro",
+  "Tatiana Almeida","Viviane Freitas"
+];
+
+var PB = [
+  "PLAYBOOK SALUTE v3.0:",
+  "ABERTURA: apresentar nome e cargo, confirmar nome lead, responder ate 5min.",
+  "SONDAGEM: minimo 2 perguntas antes de qualquer preco. Identificar necessidade, regiao, para quem, cobertura atual, dependentes.",
+  "ANCORAGEM CRITICA: apresentar valor PARTICULAR primeiro, depois ASSINANTE. Nunca inverter. Calcular implicacao de custo.",
+  "PROPOSTA: tentar upsell de dependentes pelo menos 1 vez.",
+  "OBJECOES: acolher, isolar (tirando isso tem mais algum fator?), validar (se resolver avancaria?), responder 100%.",
+  "FECHAMENTO CRITICO: fechamento presumido. Checklist 3 SIMs: 1)Nao e plano de saude 2)Sem reembolso 3)Contrato 12 meses multa 50%.",
+  "SE NAO FECHOU: agendar data e hora exatas. Nunca aceitar vou pensar sem data.",
+  "ERROS CRITICOS: assinante antes particular / vou pensar sem data / sem checklist / tabela completa / sem upsell.",
+  "PRECOS POA: 1 vida R$79, 2 vidas R$144, 3 vidas R$195, 5+ vidas R$275.",
+  "CONSULTAS: clinico particular R$275 assinante R$54. Especialista particular R$305 assinante R$94."
+].join(" ");
+
+var vendedor = "";
+var dadosList = [];
+var chatHist = [];
+var sysRoleplay = "";
+
+function s(id) { return document.getElementById(id); }
 
 function mostrar(id) {
-  ["screen-login","screen-menu","screen-analise","screen-roleplay"].forEach(function(s){
-    var el = document.getElementById(s);
-    if (el) el.classList.add("hidden");
-  });
-  document.getElementById(id).classList.remove("hidden");
+  var telas = ["tela-login","tela-menu","tela-analise","tela-roleplay"];
+  for (var i = 0; i < telas.length; i++) {
+    s(telas[i]).classList.add("hidden");
+  }
+  s(id).classList.remove("hidden");
 }
 
-function initials(n) {
-  return n.split(" ").slice(0,2).map(function(w){ return w[0]; }).join("").toUpperCase();
+function esc(txt) {
+  return String(txt || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+function initials(nome) {
+  var partes = nome.split(" ").slice(0, 2);
+  var r = "";
+  for (var i = 0; i < partes.length; i++) {
+    if (partes[i]) r += partes[i][0].toUpperCase();
+  }
+  return r || "??";
 }
 
 function entrar() {
-  var nome = document.getElementById("input-nome").value.trim();
-  var err = document.getElementById("erro-login");
+  var nome = s("inp-nome").value.trim();
+  var errEl = s("err-login");
   if (!nome) return;
-  var match = ATENDENTES.filter(function(a){ return a.toLowerCase()===nome.toLowerCase(); })[0];
+
+  var match = "";
+  for (var i = 0; i < LISTA.length; i++) {
+    if (LISTA[i].toLowerCase() === nome.toLowerCase()) {
+      match = LISTA[i];
+      break;
+    }
+  }
+
   if (!match) {
-    err.textContent = "Nome nao encontrado. Verifique se digitou exatamente como cadastrado.";
-    err.classList.remove("hidden");
+    errEl.textContent = "Nome nao encontrado. Verifique se digitou exatamente como cadastrado.";
+    errEl.classList.remove("hidden");
     return;
   }
-  err.classList.add("hidden");
+
+  errEl.classList.add("hidden");
   vendedor = match;
-  document.getElementById("avatar-initials").textContent = initials(vendedor);
-  document.getElementById("menu-nome").textContent = vendedor;
-  mostrar("screen-menu");
+  s("av-initials").textContent = initials(vendedor);
+  s("av-nome").textContent = vendedor;
+  s("av-stats").textContent = "Carregando dados...";
+  mostrar("tela-menu");
   carregarDados();
 }
 
-function csvLinha(l) {
-  var cols=[], cur="", q=false;
-  for (var i=0;i<l.length;i++){
-    var c=l[i];
-    if(c==='"'){q=!q;}
-    else if(c===","&&!q){cols.push(cur.trim());cur="";}
-    else{cur+=c;}
+function parseLinhaCSV(linha) {
+  var cols = [];
+  var cur = "";
+  var dentro = false;
+  for (var i = 0; i < linha.length; i++) {
+    var c = linha[i];
+    if (c === '"') {
+      dentro = !dentro;
+    } else if (c === "," && !dentro) {
+      cols.push(cur.trim());
+      cur = "";
+    } else {
+      cur += c;
+    }
   }
   cols.push(cur.trim());
   return cols;
 }
 
 function carregarDados() {
-  document.getElementById("menu-stats").textContent = "Carregando...";
-  var url = "https://docs.google.com/spreadsheets/d/"+SHEET_ID+"/gviz/tq?tqx=out:csv&sheet="+encodeURIComponent(SHEET_ABA);
-  fetch(url).then(function(r){return r.text();}).then(function(csv){
-    var linhas = csv.split("\n").slice(1).filter(function(l){return l.trim();});
-    dados = linhas.map(function(l){return csvLinha(l);})
-      .filter(function(c){return (c[1]||"").toLowerCase()===vendedor.toLowerCase();})
-      .map(function(c){return {data:c[0]||"",nota:parseFloat(c[4])||0,resultado:c[5]||"",busca:c[6]||"",objecao:c[12]||"",errosCrit:c[20]||"",errosCom:c[21]||"",acertos:c[22]||""};});
-    var total=dados.length;
-    var soma=dados.reduce(function(s,r){return s+r.nota;},0);
-    var media=total>0?(soma/total).toFixed(1):"--";
-    var vendas=dados.filter(function(r){return r.resultado==="VENDA";}).length;
-    var taxa=total>0?Math.round(vendas/total*100):0;
-    document.getElementById("menu-stats").textContent=total+" conversas · Media "+media+" · "+taxa+"% conversao";
-    var n=parseFloat(media);
-    var cf=n>=7?"#eaf3de":n>=4?"#faeeda":"#fcebeb";
-    var ct=n>=7?"#3b6d11":n>=4?"#854f0b":"#a32d2d";
-    document.getElementById("menu-badge").innerHTML="<span style='background:"+cf+";color:"+ct+";padding:4px 12px;border-radius:20px;font-size:13px;font-weight:500'>"+media+"/10</span>";
-    document.getElementById("menu-cards").innerHTML="<div class='stat'><div class='stat-l'>Conversas</div><div class='stat-v'>"+total+"</div></div><div class='stat'><div class='stat-l'>Vendas</div><div class='stat-v' style='color:#3b6d11'>"+vendas+"</div></div>";
-  }).catch(function(){
-    document.getElementById("menu-stats").textContent="Erro ao carregar dados.";
-  });
-}
-
-function claude(msgs, system, max) {
-  var body = {model:"claude-haiku-4-5-20251001",max_tokens:max||1000,messages:msgs};
-  if (system) body.system = system;
-  return fetch(PROXY,{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(body)})
-    .then(function(r){return r.json();})
-    .then(function(d){
-      if (d.error) throw new Error(d.error.message);
-      return d.content[0].text;
+  var url = "https://docs.google.com/spreadsheets/d/" + SHEET_ID + "/gviz/tq?tqx=out:csv&sheet=" + encodeURIComponent(SHEET_ABA);
+  fetch(url)
+    .then(function(r) { return r.text(); })
+    .then(function(csv) {
+      var linhas = csv.split("\n").slice(1);
+      dadosList = [];
+      for (var i = 0; i < linhas.length; i++) {
+        if (!linhas[i].trim()) continue;
+        var c = parseLinhaCSV(linhas[i]);
+        if ((c[1] || "").toLowerCase() === vendedor.toLowerCase()) {
+          dadosList.push({
+            data: c[0] || "",
+            nota: parseFloat(c[4]) || 0,
+            resultado: c[5] || "",
+            busca: c[6] || "",
+            objecao: c[12] || "",
+            errosCrit: c[20] || "",
+            errosCom: c[21] || "",
+            acertos: c[22] || ""
+          });
+        }
+      }
+      atualizarMenu();
+    })
+    .catch(function() {
+      s("av-stats").textContent = "Erro ao carregar dados.";
     });
 }
 
-function extrairJSON(txt) {
-  var s = txt.indexOf("{");
-  var e = txt.lastIndexOf("}");
-  if (s===-1||e===-1) throw new Error("JSON nao encontrado");
-  var jsonStr = txt.substring(s, e+1);
-  try {
-    return JSON.parse(jsonStr);
-  } catch(err) {
-    // Tentar reparar JSON com problemas comuns
-    var fixed = jsonStr
-      .replace(/,\s*}/g, "}")
-      .replace(/,\s*]/g, "]")
-      .replace(/[ --]/g, " ")
-      .replace(/
-/g, "\n")
-      .replace(/
-/g, "\r")
-      .replace(/	/g, "\t");
-    try {
-      return JSON.parse(fixed);
-    } catch(err2) {
-      throw new Error("Parse falhou: " + err.message);
-    }
+function atualizarMenu() {
+  var total = dadosList.length;
+  var soma = 0;
+  for (var i = 0; i < dadosList.length; i++) soma += dadosList[i].nota;
+  var media = total > 0 ? (soma / total).toFixed(1) : "--";
+  var vendas = 0;
+  for (var j = 0; j < dadosList.length; j++) {
+    if (dadosList[j].resultado === "VENDA") vendas++;
   }
+  var taxa = total > 0 ? Math.round(vendas / total * 100) : 0;
+
+  s("av-stats").textContent = total + " conversas · Media " + media + " · " + taxa + "% conversao";
+
+  var n = parseFloat(media);
+  var cf = n >= 7 ? "#eaf3de" : n >= 4 ? "#faeeda" : "#fcebeb";
+  var ct = n >= 7 ? "#3b6d11" : n >= 4 ? "#854f0b" : "#a32d2d";
+  s("av-badge").innerHTML = "<span style='background:" + cf + ";color:" + ct + ";padding:4px 12px;border-radius:20px;font-size:13px;font-weight:500'>" + media + "/10</span>";
+  s("av-cards").innerHTML =
+    "<div class='stat'><div class='stat-l'>Conversas</div><div class='stat-v'>" + total + "</div></div>" +
+    "<div class='stat'><div class='stat-l'>Vendas</div><div class='stat-v' style='color:#3b6d11'>" + vendas + "</div></div>";
 }
 
-function iniciarAnalise() {
-  mostrar("screen-analise");
-  document.getElementById("analise-content").innerHTML = "<div class='loading'><span class='dot'></span><span class='dot'></span><span class='dot'></span><br><br>Analisando suas conversas...</div>";
-  if (!dados.length) {
-    document.getElementById("analise-content").innerHTML = "<p style='color:#888780;font-size:13px;text-align:center;padding:20px'>Nenhuma conversa encontrada para voce ainda.</p>";
-    return;
-  }
-  var ul = dados.slice(-30);
-  var res = ul.map(function(r,i){return "Conv."+(i+1)+"("+r.data+"): nota="+r.nota+" resultado="+r.resultado+" busca="+r.busca+" objecao="+r.objecao+" errosCrit="+r.errosCrit+" errosCom="+r.errosCom+" acertos="+r.acertos;}).join("\n");
-  var prompt = "Voce e coach comercial da Salute. " + PB + "\n\nVendedor: " + vendedor + "\nDados das ultimas conversas:\n" + res + "\n\nRetorne SOMENTE o JSON abaixo, sem nenhum texto antes ou depois, sem markdown:\n" +
-    '{"nota_media":7.0,"diagnostico":"texto","pontos_fortes":["p1","p2"],"erros_recorrentes":["e1","e2"],"objecoes_mais_recebidas":["o1","o2"],"como_lidar_objecoes":["d1","d2"],"plano_treinamento":[{"semana":1,"foco":"f1","acao":"a1"},{"semana":2,"foco":"f2","acao":"a2"},{"semana":3,"foco":"f3","acao":"a3"}],"meta_proxima_semana":"meta","mensagem_motivacional":"msg"}';
-  claude([{role:"user",content:prompt}],null,1500).then(function(raw){
-    try {
-      renderAnalise(extrairJSON(raw));
-    } catch(pe) {
-      document.getElementById("analise-content").innerHTML="<div class='error-msg'>Erro ao processar: "+pe.message+"<br><small>"+esc(raw.substring(0,120))+"</small></div>";
-    }
-  }).catch(function(e){
-    document.getElementById("analise-content").innerHTML="<div class='error-msg'>Erro: "+e.message+"</div>";
+function chamarClaude(mensagens, system, maxTok) {
+  var corpo = {
+    model: "claude-haiku-4-5-20251001",
+    max_tokens: maxTok || 1000,
+    messages: mensagens
+  };
+  if (system) corpo.system = system;
+  return fetch(PROXY, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(corpo)
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(d) {
+    if (d.error) throw new Error(d.error.message);
+    return d.content[0].text;
   });
 }
 
-function renderAnalise(a) {
-  var n=parseFloat(a.nota_media)||0;
-  var cf=n>=7?"#eaf3de":n>=4?"#faeeda":"#fcebeb";
-  var ct=n>=7?"#3b6d11":n>=4?"#854f0b":"#a32d2d";
-  var h="<div style='display:flex;align-items:flex-start;gap:14px;margin-bottom:16px'><div style='background:"+cf+";color:"+ct+";font-size:28px;font-weight:500;padding:12px 18px;border-radius:10px;flex-shrink:0'>"+n.toFixed(1)+"</div><p style='font-size:13px;line-height:1.7'>"+esc(a.diagnostico||"")+"</p></div>";
-  if (a.mensagem_motivacional) h+="<div style='background:#e1f5ee;border:0.5px solid #9fe1cb;border-radius:8px;padding:10px 14px;margin-bottom:16px;font-size:13px;color:#085041;font-style:italic'>\""+esc(a.mensagem_motivacional)+"\"</div>";
-  h+="<div class='divider'></div><div class='grid2' style='margin-bottom:16px'><div><div style='font-size:12px;font-weight:500;color:#3b6d11;margin-bottom:8px'>Pontos fortes</div>";
-  (a.pontos_fortes||[]).forEach(function(p){h+="<div class='acerto-item'>\u2713 "+esc(p)+"</div>";});
-  h+="</div><div><div style='font-size:12px;font-weight:500;color:#a32d2d;margin-bottom:8px'>Erros recorrentes</div>";
-  (a.erros_recorrentes||[]).forEach(function(e){h+="<div class='erro-item'>\u2717 "+esc(e)+"</div>";});
-  h+="</div></div>";
-  if ((a.objecoes_mais_recebidas||[]).length) {
-    h+="<div style='margin-bottom:16px'><div style='font-size:12px;font-weight:500;margin-bottom:8px'>Objecoes mais recebidas</div><div>";
-    a.objecoes_mais_recebidas.forEach(function(o){h+="<span class='tag'>"+esc(o)+"</span>";});
-    h+="</div>";
-    (a.como_lidar_objecoes||[]).forEach(function(d){h+="<div style='font-size:12px;color:#888780;padding:4px 0;border-bottom:0.5px solid #f1efe8'>\u2192 "+esc(d)+"</div>";});
-    h+="</div>";
-  }
-  h+="<div class='divider'></div><div style='font-size:13px;font-weight:500;margin-bottom:12px'>Plano de treinamento - 3 semanas</div>";
-  (a.plano_treinamento||[]).forEach(function(s){h+="<div class='plano-item'><div class='plano-semana'>Semana "+s.semana+" - "+esc(s.foco)+"</div><div class='plano-acao'>"+esc(s.acao)+"</div></div>";});
-  if (a.meta_proxima_semana) h+="<div style='background:#e1f5ee;border:0.5px solid #9fe1cb;border-radius:8px;padding:12px;margin-top:8px'><div style='font-size:11px;color:#085041;margin-bottom:3px'>Meta da proxima semana</div><div style='font-size:13px;color:#085041;font-weight:500'>"+esc(a.meta_proxima_semana)+"</div></div>";
-  h+="<button class='btn btn-outline' style='margin-top:16px' onclick='iniciarRoleplay()'>Praticar com roleplay</button>";
-  document.getElementById("analise-content").innerHTML=h;
+function extrairJSON(txt) {
+  var inicio = txt.indexOf("{");
+  var fim = txt.lastIndexOf("}");
+  if (inicio === -1 || fim === -1) throw new Error("JSON nao encontrado na resposta");
+  var trecho = txt.substring(inicio, fim + 1);
+  return JSON.parse(trecho);
 }
 
-function esc(s) {
-  return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+function iniciarAnalise() {
+  mostrar("tela-analise");
+  s("analise-body").innerHTML = "<div class='loading'><span class='dot'></span><span class='dot'></span><span class='dot'></span><br><br>Analisando suas conversas com IA...</div>";
+
+  if (dadosList.length === 0) {
+    s("analise-body").innerHTML = "<p style='color:#888780;font-size:13px;text-align:center;padding:20px'>Nenhuma conversa encontrada para voce ainda.</p>";
+    return;
+  }
+
+  var ultimas = dadosList.slice(-30);
+  var resumo = "";
+  for (var i = 0; i < ultimas.length; i++) {
+    var r = ultimas[i];
+    resumo += "Conv" + (i+1) + "(" + r.data + "): nota=" + r.nota + " resultado=" + r.resultado + " busca=" + r.busca + " objecao=" + r.objecao + " errosCrit=" + r.errosCrit + " errosCom=" + r.errosCom + " acertos=" + r.acertos + "\n";
+  }
+
+  var exemplo = '{"nota_media":7.5,"diagnostico":"texto aqui","pontos_fortes":["ponto1","ponto2","ponto3"],"erros_recorrentes":["erro1","erro2","erro3"],"objecoes_mais_recebidas":["objecao1","objecao2"],"como_lidar_objecoes":["dica1","dica2"],"plano_treinamento":[{"semana":1,"foco":"tema","acao":"acao"},{"semana":2,"foco":"tema","acao":"acao"},{"semana":3,"foco":"tema","acao":"acao"}],"meta_proxima_semana":"meta aqui","mensagem_motivacional":"mensagem aqui"}';
+
+  var prompt = PB + "\n\nVoce e o coach comercial da Salute. Analise o desempenho de " + vendedor + " e gere um diagnostico em portugues brasileiro.\n\nDADOS DAS CONVERSAS:\n" + resumo + "\nRetorne SOMENTE o JSON no formato abaixo, sem nenhum texto antes ou depois:\n" + exemplo;
+
+  chamarClaude([{ role: "user", content: prompt }], null, 1500)
+    .then(function(raw) {
+      var analise = extrairJSON(raw);
+      renderAnalise(analise);
+    })
+    .catch(function(e) {
+      s("analise-body").innerHTML = "<div class='errmsg'>Erro ao gerar analise: " + esc(e.message) + "</div>";
+    });
+}
+
+function renderAnalise(a) {
+  var n = parseFloat(a.nota_media) || 0;
+  var cf = n >= 7 ? "#eaf3de" : n >= 4 ? "#faeeda" : "#fcebeb";
+  var ct = n >= 7 ? "#3b6d11" : n >= 4 ? "#854f0b" : "#a32d2d";
+
+  var h = "";
+
+  h += "<div style='display:flex;align-items:flex-start;gap:12px;margin-bottom:14px'>";
+  h += "<div style='background:" + cf + ";color:" + ct + ";font-size:26px;font-weight:500;padding:10px 16px;border-radius:10px;flex-shrink:0'>" + n.toFixed(1) + "</div>";
+  h += "<p style='font-size:13px;line-height:1.7'>" + esc(a.diagnostico || "") + "</p>";
+  h += "</div>";
+
+  if (a.mensagem_motivacional) {
+    h += "<div style='background:#e1f5ee;border:1px solid #9fe1cb;border-radius:8px;padding:10px 14px;margin-bottom:14px;font-size:13px;color:#085041;font-style:italic'>\"" + esc(a.mensagem_motivacional) + "\"</div>";
+  }
+
+  h += "<div class='divider'></div>";
+  h += "<div class='grid2'>";
+  h += "<div><div style='font-size:12px;font-weight:500;color:#3b6d11;margin-bottom:8px'>Pontos fortes</div>";
+  var pf = a.pontos_fortes || [];
+  for (var i = 0; i < pf.length; i++) {
+    h += "<div class='acerto'>\u2713 " + esc(pf[i]) + "</div>";
+  }
+  h += "</div>";
+  h += "<div><div style='font-size:12px;font-weight:500;color:#a32d2d;margin-bottom:8px'>Erros recorrentes</div>";
+  var er = a.erros_recorrentes || [];
+  for (var j = 0; j < er.length; j++) {
+    h += "<div class='erro'>\u2717 " + esc(er[j]) + "</div>";
+  }
+  h += "</div></div>";
+
+  var ob = a.objecoes_mais_recebidas || [];
+  if (ob.length) {
+    h += "<div style='margin:14px 0'><div style='font-size:12px;font-weight:500;margin-bottom:8px'>Objecoes mais recebidas</div><div>";
+    for (var k = 0; k < ob.length; k++) {
+      h += "<span class='tag'>" + esc(ob[k]) + "</span>";
+    }
+    h += "</div></div>";
+    var cl = a.como_lidar_objecoes || [];
+    for (var l = 0; l < cl.length; l++) {
+      h += "<div style='font-size:12px;color:#888780;padding:4px 0;border-bottom:1px solid #f1efe8'>\u2192 " + esc(cl[l]) + "</div>";
+    }
+  }
+
+  h += "<div class='divider'></div>";
+  h += "<div style='font-size:13px;font-weight:500;margin-bottom:10px'>Plano de treinamento — 3 semanas</div>";
+  var pt = a.plano_treinamento || [];
+  for (var m = 0; m < pt.length; m++) {
+    h += "<div class='plano'><div class='plano-sem'>Semana " + pt[m].semana + " — " + esc(pt[m].foco) + "</div><div class='plano-ac'>" + esc(pt[m].acao) + "</div></div>";
+  }
+
+  if (a.meta_proxima_semana) {
+    h += "<div style='background:#e1f5ee;border:1px solid #9fe1cb;border-radius:8px;padding:12px;margin-top:8px'>";
+    h += "<div style='font-size:11px;color:#085041;margin-bottom:3px'>Meta da proxima semana</div>";
+    h += "<div style='font-size:13px;color:#085041;font-weight:500'>" + esc(a.meta_proxima_semana) + "</div></div>";
+  }
+
+  h += "<button class='btn btn-outline' style='margin-top:14px' id='btn-ir-roleplay'>Praticar com roleplay agora</button>";
+  s("analise-body").innerHTML = h;
+  s("btn-ir-roleplay").addEventListener("click", iniciarRoleplay);
 }
 
 function iniciarRoleplay() {
-  mostrar("screen-roleplay");
-  hist=[];
-  document.getElementById("chat-messages").innerHTML="";
-  document.getElementById("chat-input").value="";
-  var erros=dados.slice(-10).map(function(r){return r.errosCrit+" "+r.errosCom;}).join(" ").split(/[|,]/).slice(0,3).join(", ")||"ancoragem incorreta";
-  var objs=dados.map(function(r){return r.objecao;}).filter(Boolean).slice(0,3).join(", ")||"preco, vou pensar";
-  sys=PB+"\n\nVoce e um CLIENTE SIMULADO para treinamento de "+vendedor+".\nResponda como cliente de WhatsApp: mensagens curtas e naturais.\nLevante 1-2 objecoes. Se atendente sondar antes do preco: avance. Se nao sondar: resista.\nAncoragem correta (particular antes assinante): demonstre interesse. Errada: confusao.\nObjecoes para usar: "+objs+"\nErros frequentes deste atendente: "+erros+"\nApos CADA resposta do atendente inclua ao final: [AVALIACAO: nota | feedback 1 frase]\nComece apresentando sua necessidade.";
-  addMsg("system","Roleplay iniciado. Responda como atendente da Salute.");
-  var lid=addLoad();
-  claude([{role:"user",content:"Inicie como cliente."}],sys,400).then(function(t){
-    removeLoad(lid);
-    var av=getAv(t); t=rmAv(t);
-    addMsg("agent",t); hist.push({role:"assistant",content:t});
-    if(av) showAv(av);
-  }).catch(function(e){removeLoad(lid);addMsg("system","Erro: "+e.message);});
+  mostrar("tela-roleplay");
+  chatHist = [];
+  s("chat").innerHTML = "";
+  s("inp-chat").value = "";
+
+  var erros = "";
+  var objs = "";
+  var ultimas = dadosList.slice(-10);
+  for (var i = 0; i < ultimas.length; i++) {
+    erros += ultimas[i].errosCrit + " " + ultimas[i].errosCom + " ";
+    if (ultimas[i].objecao) objs += ultimas[i].objecao + ", ";
+  }
+  erros = erros.trim() || "ancoragem incorreta, sem upsell";
+  objs = objs.replace(/,\s*$/, "") || "preco alto, vou pensar";
+
+  sysRoleplay = PB +
+    " Voce e um CLIENTE SIMULADO para treinamento de " + vendedor + " da Salute." +
+    " Responda como cliente de WhatsApp: mensagens curtas e naturais." +
+    " Levante 1 a 2 objecoes ao longo da conversa." +
+    " Se o atendente sondar antes de dar preco: avance progressivamente." +
+    " Se nao sondar: resista e pergunte so o preco." +
+    " Se a ancoragem for correta (particular antes assinante): demonstre interesse." +
+    " Se errada: demonstre confusao." +
+    " Objecoes para usar: " + objs + "." +
+    " Erros frequentes deste atendente (seja rigoroso nestes pontos): " + erros + "." +
+    " Apos CADA resposta do atendente, inclua ao final da sua mensagem: [AVALIACAO: nota_0_a_10 | feedback_de_1_frase]" +
+    " Comece apresentando sua necessidade como cliente.";
+
+  adicionarMsg("system", "Roleplay iniciado. O agente simula um cliente real. Responda como atendente da Salute.");
+
+  var lid = addLoading();
+  chamarClaude([{ role: "user", content: "Inicie o roleplay como cliente." }], sysRoleplay, 400)
+    .then(function(txt) {
+      removeLoading(lid);
+      var av = pegarAv(txt);
+      txt = removerAv(txt);
+      adicionarMsg("agent", txt);
+      chatHist.push({ role: "assistant", content: txt });
+      if (av) exibirAv(av);
+    })
+    .catch(function(e) {
+      removeLoading(lid);
+      adicionarMsg("system", "Erro ao iniciar: " + e.message);
+    });
 }
 
-function enviarMensagem() {
-  var inp=document.getElementById("chat-input");
-  var txt=inp.value.trim();
-  if(!txt) return;
-  inp.value="";
-  addMsg("user",txt);
-  hist.push({role:"user",content:txt});
-  var lid=addLoad();
-  claude(hist.slice(-10),sys,400).then(function(t){
-    removeLoad(lid);
-    var av=getAv(t); t=rmAv(t);
-    addMsg("agent",t); hist.push({role:"assistant",content:t});
-    if(av) showAv(av);
-  }).catch(function(e){removeLoad(lid);addMsg("system","Erro: "+e.message);});
+function enviarMsg() {
+  var inp = s("inp-chat");
+  var txt = inp.value.trim();
+  if (!txt) return;
+  inp.value = "";
+  adicionarMsg("user", txt);
+  chatHist.push({ role: "user", content: txt });
+
+  var msgs = chatHist.slice(-12);
+  var lid = addLoading();
+  chamarClaude(msgs, sysRoleplay, 400)
+    .then(function(resp) {
+      removeLoading(lid);
+      var av = pegarAv(resp);
+      resp = removerAv(resp);
+      adicionarMsg("agent", resp);
+      chatHist.push({ role: "assistant", content: resp });
+      if (av) exibirAv(av);
+    })
+    .catch(function(e) {
+      removeLoading(lid);
+      adicionarMsg("system", "Erro: " + e.message);
+    });
 }
 
-function getAv(t){var m=t.match(/\[AVALIACAO:\s*([\d.]+)\s*\|\s*(.+?)\]/i);return m?{nota:parseFloat(m[1]),fb:m[2].trim()}:null;}
-function rmAv(t){return t.replace(/\[AVALIACAO:.*?\]/gi,"").trim();}
-function showAv(av){
-  var cf=av.nota>=7?"#eaf3de":av.nota>=4?"#faeeda":"#fcebeb";
-  var ct=av.nota>=7?"#3b6d11":av.nota>=4?"#854f0b":"#a32d2d";
-  document.getElementById("chat-messages").insertAdjacentHTML("beforeend","<div class='avaliacao' style='background:"+cf+";color:"+ct+"'><strong>"+av.nota+"/10</strong> - "+esc(av.fb)+"</div>");
-  scrollC();
+function pegarAv(txt) {
+  var re = /\[AVALIACAO:\s*([\d.]+)\s*\|\s*([^\]]+)\]/i;
+  var m = txt.match(re);
+  return m ? { nota: parseFloat(m[1]), fb: m[2].trim() } : null;
 }
-function addMsg(tipo,txt){
-  var c=document.getElementById("chat-messages");
-  var e=esc(txt).replace(/\n/g,"<br>");
-  if(tipo==="system") c.insertAdjacentHTML("beforeend","<div class='bubble bubble-system'>"+e+"</div>");
-  else if(tipo==="agent") c.insertAdjacentHTML("beforeend","<div class='msg msg-agent'><div class='sender'>Cliente simulado</div><div class='bubble bubble-agent'>"+e+"</div></div>");
-  else c.insertAdjacentHTML("beforeend","<div class='msg msg-user'><div class='sender' style='text-align:right'>"+vendedor+"</div><div class='bubble bubble-user'>"+e+"</div></div>");
-  scrollC();
+
+function removerAv(txt) {
+  return txt.replace(/\[AVALIACAO:[^\]]*\]/gi, "").trim();
 }
-function addLoad(){var id="l"+Date.now();document.getElementById("chat-messages").insertAdjacentHTML("beforeend","<div id='"+id+"' class='msg msg-agent'><div class='bubble bubble-agent'><span class='dot'></span><span class='dot'></span><span class='dot'></span></div></div>");scrollC();return id;}
-function removeLoad(id){var el=document.getElementById(id);if(el)el.remove();}
-function scrollC(){var c=document.getElementById("chat-messages");c.scrollTop=c.scrollHeight;}
-function voltarMenu(){mostrar("screen-menu");carregarDados();}
-function sair(){vendedor="";dados=[];hist=[];document.getElementById("input-nome").value="";document.getElementById("erro-login").classList.add("hidden");mostrar("screen-login");}
+
+function exibirAv(av) {
+  var cf = av.nota >= 7 ? "#eaf3de" : av.nota >= 4 ? "#faeeda" : "#fcebeb";
+  var ct = av.nota >= 7 ? "#3b6d11" : av.nota >= 4 ? "#854f0b" : "#a32d2d";
+  s("chat").insertAdjacentHTML("beforeend",
+    "<div class='av' style='background:" + cf + ";color:" + ct + "'><strong>" + av.nota + "/10</strong> — " + esc(av.fb) + "</div>");
+  scrollChat();
+}
+
+function adicionarMsg(tipo, txt) {
+  var chat = s("chat");
+  var e = esc(txt).replace(/\n/g, "<br>");
+  if (tipo === "system") {
+    chat.insertAdjacentHTML("beforeend", "<div class='bub bsy'>" + e + "</div>");
+  } else if (tipo === "agent") {
+    chat.insertAdjacentHTML("beforeend",
+      "<div class='msg mag'><div class='snd'>Cliente simulado</div><div class='bub bag'>" + e + "</div></div>");
+  } else {
+    chat.insertAdjacentHTML("beforeend",
+      "<div class='msg mug'><div class='snd' style='text-align:right'>" + vendedor + "</div><div class='bub bug'>" + e + "</div></div>");
+  }
+  scrollChat();
+}
+
+function addLoading() {
+  var id = "ld" + Date.now();
+  s("chat").insertAdjacentHTML("beforeend",
+    "<div id='" + id + "' class='msg mag'><div class='bub bag'><span class='dot'></span><span class='dot'></span><span class='dot'></span></div></div>");
+  scrollChat();
+  return id;
+}
+
+function removeLoading(id) {
+  var el = s(id);
+  if (el) el.remove();
+}
+
+function scrollChat() {
+  var c = s("chat");
+  c.scrollTop = c.scrollHeight;
+}
+
+function sair() {
+  vendedor = "";
+  dadosList = [];
+  chatHist = [];
+  s("inp-nome").value = "";
+  s("err-login").classList.add("hidden");
+  mostrar("tela-login");
+}
+
+// Eventos
+s("btn-entrar").addEventListener("click", entrar);
+s("inp-nome").addEventListener("keydown", function(e) {
+  if (e.key === "Enter") entrar();
+});
+s("btn-analise").addEventListener("click", iniciarAnalise);
+s("btn-roleplay").addEventListener("click", iniciarRoleplay);
+s("btn-sair").addEventListener("click", sair);
+s("btn-volta-analise").addEventListener("click", function() { mostrar("tela-menu"); carregarDados(); });
+s("btn-volta-roleplay").addEventListener("click", function() { mostrar("tela-menu"); });
+s("btn-enviar").addEventListener("click", enviarMsg);
+s("inp-chat").addEventListener("keydown", function(e) {
+  if (e.key === "Enter") enviarMsg();
+});
+
+mostrar("tela-login");
+
+})();
 </script>
 </body>
 </html>
