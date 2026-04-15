@@ -77,29 +77,7 @@
     <p class="sub">Análise de desempenho + Roleplay baseados no Playbook v3.0</p>
   </div>
 
-  <!-- CONFIGURAÇÃO -->
-  <div id="screen-config" class="card">
-    <div class="config-note">
-      Configure as credenciais abaixo. Ficam salvas no seu navegador — você só precisa fazer isso uma vez.
-    </div>
-    <div style="display:flex;flex-direction:column;gap:12px">
-      <div>
-        <label>Chave API Claude (Anthropic)</label>
-        <input type="password" id="cfg-claude" placeholder="sk-ant-..." />
-      </div>
-      <div>
-        <label>ID da Planilha Google Sheets</label>
-        <input type="text" id="cfg-sheet" placeholder="1rFUKlDjFLn7e0MQmBJ7Dl7BCXXMzwdBjDv2gwAoLfTI" />
-        <div style="font-size:11px;color:#888780;margin-top:3px">URL da planilha: docs.google.com/spreadsheets/d/<strong>ID</strong>/edit</div>
-      </div>
-      <div>
-        <label>Nome da aba com as análises</label>
-        <input type="text" id="cfg-aba" placeholder="Análise Diária" />
-      </div>
-    </div>
-    <button class="btn btn-p" onclick="salvarConfig()">Salvar e continuar</button>
-    <button class="btn" style="margin-top:8px;font-size:12px" onclick="mostrar('screen-login')">Já configurei — entrar</button>
-  </div>
+  <div id="screen-config" class="hidden"></div>
 
   <!-- LOGIN -->
   <div id="screen-login" class="card hidden">
@@ -108,7 +86,7 @@
     <input type="text" id="input-nome" placeholder="Ex: Brendon Vianna" onkeydown="if(event.key==='Enter')entrar()" style="margin-bottom:4px" />
     <div id="erro-login" class="hidden" style="font-size:12px;color:#a32d2d;margin-top:6px"></div>
     <button class="btn btn-p" onclick="entrar()">Entrar</button>
-    <button class="btn" style="margin-top:8px;font-size:12px" onclick="mostrar('screen-config')">Alterar configurações</button>
+
   </div>
 
   <!-- MENU -->
@@ -214,7 +192,7 @@ let cfg = {}, vendedor = "", dadosVendedor = [], chatHistory = [], sistemaRolepl
 
 function mostrar(id) {
   ['screen-config','screen-login','screen-menu','screen-analise','screen-roleplay']
-    .forEach(s => document.getElementById(s).classList.add('hidden'));
+    .forEach(s => { const el = document.getElementById(s); if(el) el.classList.add('hidden'); });
   document.getElementById(id).classList.remove('hidden');
 }
 
@@ -223,16 +201,7 @@ function initials(n) {
   return n.split(' ').slice(0,2).map(w => w[0]).join('').toUpperCase();
 }
 
-function salvarConfig() {
-  const claude = document.getElementById('cfg-claude').value.trim();
-  const sheet = document.getElementById('cfg-sheet').value.trim();
-  const aba = document.getElementById('cfg-aba').value.trim() || 'Análise Diária';
-  if (!claude) { alert('Informe a chave API Claude.'); return; }
-  if (!sheet) { alert('Informe o ID da planilha.'); return; }
-  cfg = { claude, sheet, aba };
-  localStorage.setItem('salute-cfg', JSON.stringify(cfg));
-  mostrar('screen-login');
-}
+function salvarConfig() {}
 
 async function entrar() {
   const nome = document.getElementById('input-nome').value.trim();
@@ -635,20 +604,7 @@ function sair() {
 }
 
 window.onload = () => {
-  const saved = localStorage.getItem('salute-cfg');
-  if (saved) {
-    try {
-      cfg = JSON.parse(saved);
-      document.getElementById('cfg-claude').value = cfg.claude || '';
-      document.getElementById('cfg-sheet').value = cfg.sheet || '';
-      document.getElementById('cfg-aba').value = cfg.aba || 'Análise Diária';
-      if (cfg.claude && cfg.sheet) {
-        mostrar('screen-login');
-        return;
-      }
-    } catch(e) {}
-  }
-  mostrar('screen-config');
+  mostrar('screen-login');
 };
 </script>
 </body>
