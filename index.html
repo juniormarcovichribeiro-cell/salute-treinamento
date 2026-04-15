@@ -188,7 +188,12 @@ TABELA DE PREÇOS (POA): 1 vida R$79 | 2 vidas R$144 (R$72/p) | 3 vidas R$195 (R
 TABELA METRO (Alvorada, Canoas, Gravataí, Cachoeirinha, Restinga): desconto de ~20%.
 Consultas: Clínico/Pediatra/Gineco: particular R$275 → assinante R$54. Especialista: particular R$305 → assinante R$94.`;
 
-let cfg = {}, vendedor = "", dadosVendedor = [], chatHistory = [], sistemaRoleplayAtivo = "";
+const cfg = {
+    claude: "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",
+    sheet: "1rFUKlDjFLn7e0MQmBJ7Dl7BCXXMzwdBjDv2gwAoLfTI",
+    aba: "An\u00e1lise Di\u00e1ria"
+  };
+  let vendedor = "", dadosVendedor = [], chatHistory = [], sistemaRoleplayAtivo = "";
 
 function mostrar(id) {
   ['screen-config','screen-login','screen-menu','screen-analise','screen-roleplay']
