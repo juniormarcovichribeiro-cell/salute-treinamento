@@ -304,7 +304,7 @@ Você é o coach comercial da Salute Rede de Clínicas. Analise o desempenho de 
 DADOS DAS ÚLTIMAS ${ultimas.length} CONVERSAS DE ${vendedor}:
 ${resumo}
 
-Retorne SOMENTE um JSON válido sem texto adicional:
+Retorne SOMENTE o JSON puro, sem texto antes ou depois, sem blocos markdown, sem ```json, sem ```:
 {
   "nota_media": número com 1 decimal,
   "diagnostico": "parágrafo de 3-4 frases sobre o perfil geral, pontos de destaque e principais desafios deste vendedor",
@@ -338,22 +338,14 @@ Retorne SOMENTE um JSON válido sem texto adicional:
     const data = await resp.json();
     if (data.error) throw new Error(data.error.message);
     const raw = data.content[0].text;
-    console.log("RESPOSTA BRUTA CLAUDE:", raw);
     let analise;
     try {
-      // Tentar extrair JSON mesmo com texto antes/depois
-      const cleaned = raw
-        .replace(/```json\s*/g, '')
-        .replace(/```\s*/g, '')
-        .trim();
-      const start = cleaned.indexOf('{');
-      const end = cleaned.lastIndexOf('}');
-      if (start === -1 || end === -1) throw new Error("JSON não encontrado na resposta");
-      const jsonStr = cleaned.substring(start, end + 1);
-      analise = JSON.parse(jsonStr);
+      const start = raw.indexOf('{');
+      const end = raw.lastIndexOf('}');
+      if (start === -1 || end === -1) throw new Error("JSON não encontrado");
+      analise = JSON.parse(raw.substring(start, end + 1));
     } catch(e) {
-      console.error("Erro parse:", e.message, "\nRaw:", raw);
-      throw new Error("Erro ao processar resposta: " + e.message + " | Início: " + raw.substring(0, 80));
+      throw new Error("Erro ao processar resposta da IA");
     }
     renderAnalise(analise);
   } catch(e) {
