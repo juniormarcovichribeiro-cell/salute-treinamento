@@ -223,7 +223,26 @@ function extrairJSON(txt) {
   var s = txt.indexOf("{");
   var e = txt.lastIndexOf("}");
   if (s===-1||e===-1) throw new Error("JSON nao encontrado");
-  return JSON.parse(txt.substring(s,e+1));
+  var jsonStr = txt.substring(s, e+1);
+  try {
+    return JSON.parse(jsonStr);
+  } catch(err) {
+    // Tentar reparar JSON com problemas comuns
+    var fixed = jsonStr
+      .replace(/,\s*}/g, "}")
+      .replace(/,\s*]/g, "]")
+      .replace(/[ --]/g, " ")
+      .replace(/
+/g, "\n")
+      .replace(/
+/g, "\r")
+      .replace(/	/g, "\t");
+    try {
+      return JSON.parse(fixed);
+    } catch(err2) {
+      throw new Error("Parse falhou: " + err.message);
+    }
+  }
 }
 
 function iniciarAnalise() {
@@ -235,9 +254,14 @@ function iniciarAnalise() {
   }
   var ul = dados.slice(-30);
   var res = ul.map(function(r,i){return "Conv."+(i+1)+"("+r.data+"): nota="+r.nota+" resultado="+r.resultado+" busca="+r.busca+" objecao="+r.objecao+" errosCrit="+r.errosCrit+" errosCom="+r.errosCom+" acertos="+r.acertos;}).join("\n");
-  var prompt = PB+"\n\nAnalise o desempenho de "+vendedor+" e retorne APENAS este JSON sem texto antes ou depois:\n{\"nota_media\":0.0,\"diagnostico\":\"\",\"pontos_fortes\":[],\"erros_recorrentes\":[],\"objecoes_mais_recebidas\":[],\"como_lidar_objecoes\":[],\"plano_treinamento\":[{\"semana\":1,\"foco\":\"\",\"acao\":\"\"},{\"semana\":2,\"foco\":\"\",\"acao\":\"\"},{\"semana\":3,\"foco\":\"\",\"acao\":\"\"}],\"meta_proxima_semana\":\"\",\"mensagem_motivacional\":\"\"}\n\nDADOS:\n"+res;
+  var prompt = "Voce e coach comercial da Salute. " + PB + "\n\nVendedor: " + vendedor + "\nDados das ultimas conversas:\n" + res + "\n\nRetorne SOMENTE o JSON abaixo, sem nenhum texto antes ou depois, sem markdown:\n" +
+    '{"nota_media":7.0,"diagnostico":"texto","pontos_fortes":["p1","p2"],"erros_recorrentes":["e1","e2"],"objecoes_mais_recebidas":["o1","o2"],"como_lidar_objecoes":["d1","d2"],"plano_treinamento":[{"semana":1,"foco":"f1","acao":"a1"},{"semana":2,"foco":"f2","acao":"a2"},{"semana":3,"foco":"f3","acao":"a3"}],"meta_proxima_semana":"meta","mensagem_motivacional":"msg"}';
   claude([{role:"user",content:prompt}],null,1500).then(function(raw){
-    renderAnalise(extrairJSON(raw));
+    try {
+      renderAnalise(extrairJSON(raw));
+    } catch(pe) {
+      document.getElementById("analise-content").innerHTML="<div class='error-msg'>Erro ao processar: "+pe.message+"<br><small>"+esc(raw.substring(0,120))+"</small></div>";
+    }
   }).catch(function(e){
     document.getElementById("analise-content").innerHTML="<div class='error-msg'>Erro: "+e.message+"</div>";
   });
