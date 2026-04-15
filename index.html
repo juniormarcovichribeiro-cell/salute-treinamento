@@ -322,7 +322,7 @@ Retorne SOMENTE um JSON válido sem texto adicional:
 }`;
 
   try {
-    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+    const resp = await fetch('https://salute-proxy.juniormarcovich-ribeiro.workers.dev', {
       method: 'POST',
       headers: {
         'x-api-key': cfg.claude,
@@ -455,7 +455,7 @@ Comece agora apresentando sua necessidade como cliente.`;
 
   const loadId = addLoading('agent');
   try {
-    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+    const resp = await fetch('https://salute-proxy.juniormarcovich-ribeiro.workers.dev', {
       method: 'POST',
       headers: {
         'x-api-key': cfg.claude,
@@ -497,7 +497,7 @@ async function enviarMensagem() {
   const loadId = addLoading('agent');
   try {
     const msgs = chatHistory.slice(-12);
-    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+    const resp = await fetch('https://salute-proxy.juniormarcovich-ribeiro.workers.dev', {
       method: 'POST',
       headers: {
         'x-api-key': cfg.claude,
