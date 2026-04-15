@@ -338,28 +338,22 @@ Retorne SOMENTE um JSON válido sem texto adicional:
     const data = await resp.json();
     if (data.error) throw new Error(data.error.message);
     const raw = data.content[0].text;
+    console.log("RESPOSTA BRUTA CLAUDE:", raw);
     let analise;
     try {
-      analise = JSON.parse(raw);
-    } catch(e1) {
-      try {
-        const m = raw.match(/\{[\s\S]*\}/);
-        if (m) analise = JSON.parse(m[0]);
-        else throw new Error("JSON não encontrado");
-      } catch(e2) {
-        // Tentar limpar o JSON antes de parsear
-        try {
-          const cleaned = raw
-            .replace(/```json/g, '').replace(/```/g, '')
-            .replace(/[\u0000-\u001F\u007F-\u009F]/g, ' ')
-            .trim();
-          const m2 = cleaned.match(/\{[\s\S]*\}/);
-          if (m2) analise = JSON.parse(m2[0]);
-          else throw new Error("Não foi possível parsear a resposta");
-        } catch(e3) {
-          throw new Error("Erro ao processar resposta da IA: " + raw.substring(0, 100));
-        }
-      }
+      // Tentar extrair JSON mesmo com texto antes/depois
+      const cleaned = raw
+        .replace(/```json\s*/g, '')
+        .replace(/```\s*/g, '')
+        .trim();
+      const start = cleaned.indexOf('{');
+      const end = cleaned.lastIndexOf('}');
+      if (start === -1 || end === -1) throw new Error("JSON não encontrado na resposta");
+      const jsonStr = cleaned.substring(start, end + 1);
+      analise = JSON.parse(jsonStr);
+    } catch(e) {
+      console.error("Erro parse:", e.message, "\nRaw:", raw);
+      throw new Error("Erro ao processar resposta: " + e.message + " | Início: " + raw.substring(0, 80));
     }
     renderAnalise(analise);
   } catch(e) {
