@@ -326,16 +326,26 @@ function iniciarAnalise() {
     return;
   }
 
-  var ultimas = dadosList.slice(-30);
+  // Limitar dados para evitar JSON truncado
+  var ultimas = dadosList.slice(-15);
   var resumo = "";
   for (var i = 0; i < ultimas.length; i++) {
     var r = ultimas[i];
-    resumo += "Conv" + (i+1) + "(" + r.data + "): nota=" + r.nota + " resultado=" + r.resultado + " busca=" + r.busca + " objecao=" + r.objecao + " errosCrit=" + r.errosCrit + " errosCom=" + r.errosCom + " acertos=" + r.acertos + "\n";
+    resumo += (i+1) + ". nota=" + r.nota + " result=" + r.resultado + " objecao=" + r.objecao.substring(0,40) + " erros=" + r.errosCrit.substring(0,40) + "\n";
   }
 
-  var exemplo = '{"nota_media":7.5,"diagnostico":"texto aqui","pontos_fortes":["ponto1","ponto2","ponto3"],"erros_recorrentes":["erro1","erro2","erro3"],"objecoes_mais_recebidas":["objecao1","objecao2"],"como_lidar_objecoes":["dica1","dica2"],"plano_treinamento":[{"semana":1,"foco":"tema","acao":"acao"},{"semana":2,"foco":"tema","acao":"acao"},{"semana":3,"foco":"tema","acao":"acao"}],"meta_proxima_semana":"meta aqui","mensagem_motivacional":"mensagem aqui"}';
-
-  var prompt = PB + "\n\nVoce e o coach comercial da Salute. Analise o desempenho de " + vendedor + " e gere um diagnostico em portugues brasileiro.\n\nDADOS DAS CONVERSAS:\n" + resumo + "\nRetorne SOMENTE o JSON no formato abaixo, sem nenhum texto antes ou depois:\n" + exemplo;
+  var prompt = "Voce e coach comercial da Salute. " + PB +
+    "\n\nAnalise o desempenho de " + vendedor + " com base nestas " + ultimas.length + " conversas:\n" + resumo +
+    "\nRetorne APENAS este JSON (sem texto antes ou depois, sem markdown):\n" +
+    '{"nota_media":0.0,' +
+    '"diagnostico":"3 frases sobre o perfil do vendedor",' +
+    '"pontos_fortes":["ponto 1","ponto 2"],' +
+    '"erros_recorrentes":["erro 1","erro 2","erro 3"],' +
+    '"objecoes_mais_recebidas":["objecao 1","objecao 2"],' +
+    '"como_lidar_objecoes":["dica 1","dica 2"],' +
+    '"plano_treinamento":[{"semana":1,"foco":"tema","acao":"acao concreta"},{"semana":2,"foco":"tema","acao":"acao concreta"},{"semana":3,"foco":"tema","acao":"acao concreta"}],' +
+    '"meta_proxima_semana":"meta especifica",' +
+    '"mensagem_motivacional":"mensagem curta"}';
 
   chamarClaude([{ role: "user", content: prompt }], null, 1500)
     .then(function(raw) {
